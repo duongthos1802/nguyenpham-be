@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  redis:
+    image: redis:4-alpine
+    restart: always
+    command: >
+      sh -c "redis-server --appendonly yes" && echo never > /sys/kernel/mm/transparent_hugepage/enabled
+    privileged: true
+    sysctls:
+      net.core.somaxconn: '511'
+    ports:
+      - "8787:8787"
+    volumes:
+      - ./redis:/data
