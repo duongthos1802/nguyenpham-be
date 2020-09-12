@@ -8,7 +8,7 @@ console.log('models......', models)
 const server = new ApolloServer({
   schema,
   cors: true,
-  playground: true, //process.env.NODE_ENV === 'development' ? true : false,
+  playground: process.env.NODE_ENV === 'development' ? true : false,
   // playground: true,
   maxFileSize: 25 * 1024 * 1024,
   introspection: true,

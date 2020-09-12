@@ -5,10 +5,10 @@ dotenv.config()
 
 mongoose.Promise = global.Promise
 
-const DATABASE_NAME = 'teamo_dev'
-const DATABASE_HOST = 'localhost:27017'
-const DATABASE_USER = 'teamo'
-const DATABASE_PASSWORD = 'teamo'
+const DATABASE_NAME = process.env.DATABASE_NAME
+const DATABASE_HOST = process.env.DATABASE_HOST
+const DATABASE_USER = process.env.DATABASE_USER
+const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD
 
 const connectionUri = `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}/${DATABASE_NAME}`
 
