@@ -3,6 +3,8 @@ import { MongooseDataloaderFactory } from 'graphql-dataloader-mongoose'
 import schema from './schemas'
 import models from './models'
 
+console.log('models......', models)
+
 const server = new ApolloServer({
   schema,
   cors: true,
@@ -13,6 +15,7 @@ const server = new ApolloServer({
   tracing: true,
   path: '/',
   context: async () => {
+    console.log('models.......', models)
     return {
       models,
       dataloaderFactory: new MongooseDataloaderFactory()
