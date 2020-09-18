@@ -1,9 +1,10 @@
 import { ApolloServer } from 'apollo-server-express'
 import { MongooseDataloaderFactory } from 'graphql-dataloader-mongoose'
+import dotenv from 'dotenv'
 import schema from './schemas'
 import models from './models'
 
-console.log('models......', models)
+dotenv.config()
 
 const server = new ApolloServer({
   schema,
