@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import timestamp from 'mongoose-timestamp'
 
 const Address = new Schema(
   {
@@ -14,5 +15,7 @@ const Address = new Schema(
   },
   { collection: 'address' }
 )
+
+Address.plugin(timestamp)
 
 export default mongoose.model('Address', Address)

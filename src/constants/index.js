@@ -1,0 +1,1 @@
+export const MAX_VALID_LIMIT_ARG = 100

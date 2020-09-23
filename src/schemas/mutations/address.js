@@ -6,6 +6,7 @@ import {
   RESOLVER_REMOVE_BY_ID,
   RESOLVER_REMOVE_MANY
 } from '../../constants/resolver'
+
 const AddressTC = composer.AddressTC
 
 export default {
