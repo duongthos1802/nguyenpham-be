@@ -1,5 +1,5 @@
 import composeWithMongoose from 'graphql-compose-mongoose'
-import composeWithDataLoader from 'graphql-compose-dataloader'
+import composeWithDataLoader from '../../vendor/graphql-compose-dataloader'
 // models
 import models from '../../models'
 // constants

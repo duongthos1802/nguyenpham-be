@@ -7,11 +7,11 @@ import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
 
-export const AddressTC = composeWithDataLoader(
-  composeWithMongoose(models.Address, customizationOptions),
+export const BlogTC = composeWithDataLoader(
+  composeWithMongoose(models.Blog, customizationOptions),
   {
     cacheExpiration: CACHE_EXPIRATION
   }
 )
 
-export default AddressTC
+export default BlogTC

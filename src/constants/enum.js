@@ -9,3 +9,9 @@ export const PRODUCT_STATUS = {
   SUSPENDED: 'Suspended',
   DELETED: 'Deleted'
 }
+
+export const BLOG_STATUS = {
+  PUBLISHED: 'Published',
+  SUSPENDED: 'Suspended',
+  DELETED: 'Deleted'
+}
