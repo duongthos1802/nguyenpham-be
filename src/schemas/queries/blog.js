@@ -10,9 +10,9 @@ import {
 const BlogTC = composer.BlogTC
 
 export default {
-  category: BlogTC.getResolver(RESOLVER_FIND_BY_ID),
-  categories: BlogTC.getResolver(RESOLVER_FIND_MANY),
-  categoriesConnection: BlogTC.getResolver(RESOLVER_CONNECTION),
-  categoriesCount: BlogTC.getResolver(RESOLVER_COUNT),
-  categoriesPagination: BlogTC.getResolver(RESOLVER_PAGINATION)
+  blog: BlogTC.getResolver(RESOLVER_FIND_BY_ID),
+  blogs: BlogTC.getResolver(RESOLVER_FIND_MANY),
+  blogsConnection: BlogTC.getResolver(RESOLVER_CONNECTION),
+  blogsCount: BlogTC.getResolver(RESOLVER_COUNT),
+  blogsPagination: BlogTC.getResolver(RESOLVER_PAGINATION)
 }

@@ -11,9 +11,9 @@ import {
 const BannerGroupTC = composer.BannerGroupTC
 
 export default {
-  createCategory: BannerGroupTC.getResolver(RESOLVER_CREATE_ONE),
-  updateCategory: BannerGroupTC.getResolver(RESOLVER_UPDATE_BY_ID),
-  updateManyCategories: BannerGroupTC.getResolver(RESOLVER_UPDATE_MANY),
-  deleteCategory: BannerGroupTC.getResolver(RESOLVER_REMOVE_BY_ID),
-  deleteManyCategories: BannerGroupTC.getResolver(RESOLVER_REMOVE_MANY)
+  createBannerGroup: BannerGroupTC.getResolver(RESOLVER_CREATE_ONE),
+  updateBannerGroup: BannerGroupTC.getResolver(RESOLVER_UPDATE_BY_ID),
+  updateManyBannerGroups: BannerGroupTC.getResolver(RESOLVER_UPDATE_MANY),
+  deleteBannerGroup: BannerGroupTC.getResolver(RESOLVER_REMOVE_BY_ID),
+  deleteManyBannerGroups: BannerGroupTC.getResolver(RESOLVER_REMOVE_MANY)
 }

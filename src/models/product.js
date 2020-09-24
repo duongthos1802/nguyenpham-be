@@ -61,6 +61,10 @@ const Product = new Schema(
     picturesThumbnails: {
       type: [String]
     },
+    viewCount: {
+      type: Number,
+      default: 0
+    }
   },
   { collection: 'products' }
 )

@@ -10,9 +10,9 @@ import {
 const BannerGroupTC = composer.BannerGroupTC
 
 export default {
-  category: BannerGroupTC.getResolver(RESOLVER_FIND_BY_ID),
-  categories: BannerGroupTC.getResolver(RESOLVER_FIND_MANY),
-  categoriesConnection: BannerGroupTC.getResolver(RESOLVER_CONNECTION),
-  categoriesCount: BannerGroupTC.getResolver(RESOLVER_COUNT),
-  categoriesPagination: BannerGroupTC.getResolver(RESOLVER_PAGINATION)
+  bannerGroup: BannerGroupTC.getResolver(RESOLVER_FIND_BY_ID),
+  bannerGroups: BannerGroupTC.getResolver(RESOLVER_FIND_MANY),
+  bannerGroupsConnection: BannerGroupTC.getResolver(RESOLVER_CONNECTION),
+  bannerGroupsCount: BannerGroupTC.getResolver(RESOLVER_COUNT),
+  bannerGroupsPagination: BannerGroupTC.getResolver(RESOLVER_PAGINATION)
 }

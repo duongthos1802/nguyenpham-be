@@ -10,9 +10,9 @@ import {
 const ProductTC = composer.ProductTC
 
 export default {
-  category: ProductTC.getResolver(RESOLVER_FIND_BY_ID),
-  categories: ProductTC.getResolver(RESOLVER_FIND_MANY),
-  categoriesConnection: ProductTC.getResolver(RESOLVER_CONNECTION),
-  categoriesCount: ProductTC.getResolver(RESOLVER_COUNT),
-  categoriesPagination: ProductTC.getResolver(RESOLVER_PAGINATION)
+  product: ProductTC.getResolver(RESOLVER_FIND_BY_ID),
+  products: ProductTC.getResolver(RESOLVER_FIND_MANY),
+  productsConnection: ProductTC.getResolver(RESOLVER_CONNECTION),
+  productsCount: ProductTC.getResolver(RESOLVER_COUNT),
+  productsPagination: ProductTC.getResolver(RESOLVER_PAGINATION)
 }

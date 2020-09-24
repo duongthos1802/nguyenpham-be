@@ -5,6 +5,10 @@ import { BLOG_STATUS } from '../constants/enum'
 
 const Blog = new Schema(
   {
+    index: {
+      type: Number,
+      unique: true
+    },
     name: {
       type: String,
       require: true
@@ -18,12 +22,28 @@ const Blog = new Schema(
     content: {
       type: String
     },
-    author: {
+    createdBy: {
+      type: String
+    },
+    updatedBy: {
       type: String
     },
     status: {
       type: String,
       enum: Object.values(BLOG_STATUS)
+    },
+    metaTitle: {
+      type: String
+    },
+    metaDescription: {
+      type: String
+    },
+    metaKeyword: {
+      type: String
+    },
+    viewCount: {
+      type: Number,
+      default: 0
     }
   },
   { collection: 'blogs' }

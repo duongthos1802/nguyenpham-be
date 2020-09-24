@@ -1,17 +1,25 @@
-import { AddressTC } from './address'
+import { LocationTC } from './location'
 import { CategoryTC } from './category'
 import { ProductTC } from './product'
 import { BlogTC } from './blog'
 import { BannerTC } from './banner'
 import { BannerGroupTC } from './bannerGroup'
 import { FileTC } from './file'
+import { UserTC } from './user'
+import { HtmlBlockTC } from './htmlBlock'
+import { FAQTC } from './faq'
+import { VideoTC } from './video'
 
 export default {
-  AddressTC,
+  LocationTC,
   CategoryTC,
   ProductTC,
   BlogTC,
   BannerTC,
   BannerGroupTC,
-  FileTC
+  FileTC,
+  UserTC,
+  HtmlBlockTC,
+  FAQTC,
+  VideoTC
 }
