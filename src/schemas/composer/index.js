@@ -9,17 +9,28 @@ import { UserTC } from './user'
 import { HtmlBlockTC } from './htmlBlock'
 import { FAQTC } from './faq'
 import { VideoTC } from './video'
+import { UserSessionTC } from './userSession'
+
+// customs
+import {
+  UserPermissonTC,
+  AuthAdminTC
+} from './custom'
 
 export default {
-  LocationTC,
-  CategoryTC,
-  ProductTC,
-  BlogTC,
   BannerTC,
+  BlogTC,
   BannerGroupTC,
+  CategoryTC,
   FileTC,
-  UserTC,
-  HtmlBlockTC,
   FAQTC,
-  VideoTC
+  LocationTC,
+  HtmlBlockTC,
+  ProductTC,
+  UserTC,
+  UserSessionTC,
+  VideoTC,
+  // customs composer
+  UserPermissonTC,
+  AuthAdminTC
 }

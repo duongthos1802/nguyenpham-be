@@ -16,7 +16,6 @@ const server = new ApolloServer({
   tracing: true,
   path: '/',
   context: async () => {
-    console.log('models.......', models)
     return {
       models,
       dataloaderFactory: new MongooseDataloaderFactory()
