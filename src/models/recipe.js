@@ -37,6 +37,10 @@ const Recipe = new Schema(
     priority: {
       type: Number
     },
+    isProtected: {
+      type: Boolean,
+      default: false
+    },
     ingredient: {
       type: String
     },
