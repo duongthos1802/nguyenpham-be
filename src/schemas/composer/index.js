@@ -1,6 +1,6 @@
 import { LocationTC } from './location'
 import { CategoryTC } from './category'
-import { ProductTC } from './product'
+import { RecipeTC } from './recipe'
 import { BlogTC } from './blog'
 import { BannerTC } from './banner'
 import { BannerGroupTC } from './bannerGroup'
@@ -26,7 +26,7 @@ export default {
   FAQTC,
   LocationTC,
   HtmlBlockTC,
-  ProductTC,
+  RecipeTC,
   UserTC,
   UserSessionTC,
   VideoTC,

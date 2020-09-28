@@ -2,9 +2,9 @@ import mongoose, { Schema } from 'mongoose'
 import timestamp from 'mongoose-timestamp'
 import Double from '@mongoosejs/double'
 // constants
-import { PRODUCT_STATUS } from '../constants/enum'
+import { RECIPE_STATUS } from '../constants/enum'
 
-const ProductIngredient = new Schema({
+const RecipeIngredient = new Schema({
   item: {
     type: String
   },
@@ -13,7 +13,7 @@ const ProductIngredient = new Schema({
   }
 })
 
-const Product = new Schema(
+const Recipe = new Schema(
   {
     name: {
       type: String,
@@ -27,7 +27,7 @@ const Product = new Schema(
     },
     status: {
       type: String,
-      enum: Object.values(PRODUCT_STATUS)
+      enum: Object.values(RECIPE_STATUS)
     },
     // category ref
     category: {
@@ -41,7 +41,7 @@ const Product = new Schema(
       type: Number
     },
     ingredient: {
-      type: [ProductIngredient]
+      type: [RecipeIngredient]
     },
     method: {
       type: [String]
@@ -66,9 +66,9 @@ const Product = new Schema(
       default: 0
     }
   },
-  { collection: 'products' }
+  { collection: 'recipes' }
 )
 
-Product.plugin(timestamp)
+Recipe.plugin(timestamp)
 
-export default mongoose.model('Product', Product)
+export default mongoose.model('Recipe', Recipe)
