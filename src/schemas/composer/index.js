@@ -10,6 +10,7 @@ import { HtmlBlockTC } from './htmlBlock'
 import { FAQTC } from './faq'
 import { VideoTC } from './video'
 import { UserSessionTC } from './userSession'
+import { ProductTC } from './product'
 
 // customs
 import {
@@ -30,6 +31,7 @@ export default {
   UserTC,
   UserSessionTC,
   VideoTC,
+  ProductTC,
   // customs composer
   UserPermissonTC,
   AuthAdminTC
