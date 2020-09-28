@@ -20,12 +20,12 @@ export const BannerTC = composeWithDataLoader(
   }
 )
 
-BannerTC.addRelation('product', {
-  resolver: () => composer.ProductTC.getResolver(RESOLVER_FIND_BY_ID),
+BannerTC.addRelation('recipe', {
+  resolver: () => composer.RecipeTC.getResolver(RESOLVER_FIND_BY_ID),
   prepareArgs: {
-    _id: (source) => source.product
+    _id: (source) => source.recipe
   },
-  projection: { product: 1 }
+  projection: { recipe: 1 }
 })
 
 BannerTC.addRelation('category', {
