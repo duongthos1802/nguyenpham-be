@@ -19,6 +19,10 @@ const Category = new Schema(
     slug: {
       type: String
     },
+    parentId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category'
+    },
     status: {
       type: String,
       enum: Object.values(CATEGORY_STATUS)
