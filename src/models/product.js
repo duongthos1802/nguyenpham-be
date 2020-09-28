@@ -33,6 +33,10 @@ const Product = new Schema(
     tutorial: {
       type: String
     },
+    isProtected: {
+      type: Boolean,
+      default: false
+    },
     logo: [
       {
         type: Schema.Types.ObjectId,
