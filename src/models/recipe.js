@@ -61,6 +61,9 @@ const Recipe = new Schema(
     viewCount: {
       type: Number,
       default: 0
+    },
+    videoUrl: {
+      type: String
     }
   },
   { collection: 'recipes' }
