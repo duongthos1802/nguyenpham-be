@@ -24,6 +24,15 @@ const Product = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },
+    attribute: {
+      type: String
+    },
+    packing: {
+      type: String
+    },
+    tutorial: {
+      type: String
+    },
     logo: [
       {
         type: Schema.Types.ObjectId,
