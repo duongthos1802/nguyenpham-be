@@ -28,10 +28,10 @@ const Banner = new Schema({
       ref: 'File'
     }
   ],
-  // ref product
-  product: {
+  // ref recipe
+  recipe: {
     type: Schema.Types.ObjectId,
-    ref: 'Product'
+    ref: 'Recipe'
   },
   // ref category
   category: {
