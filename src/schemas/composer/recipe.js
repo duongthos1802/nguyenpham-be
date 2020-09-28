@@ -7,11 +7,11 @@ import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
 
-export const ProductTC = composeWithDataLoader(
-  composeWithMongoose(models.Product, customizationOptions),
+export const RecipeTC = composeWithDataLoader(
+  composeWithMongoose(models.Recipe, customizationOptions),
   {
     cacheExpiration: CACHE_EXPIRATION
   }
 )
 
-export default ProductTC
+export default RecipeTC
