@@ -1,17 +1,17 @@
 import mongoose, { Schema } from 'mongoose'
 import timestamp from 'mongoose-timestamp'
-import Double from '@mongoosejs/double'
+// import Double from '@mongoosejs/double'
 // constants
 import { RECIPE_STATUS } from '../constants/enum'
 
-const RecipeIngredient = new Schema({
-  item: {
-    type: String
-  },
-  amount: {
-    type: Double
-  }
-})
+// const RecipeIngredient = new Schema({
+//   item: {
+//     type: String
+//   },
+//   amount: {
+//     type: Double
+//   }
+// })
 
 const Recipe = new Schema(
   {
@@ -34,17 +34,14 @@ const Recipe = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },
-    content: {
-      type: String
-    },
     priority: {
       type: Number
     },
     ingredient: {
-      type: [RecipeIngredient]
+      type: String
     },
     method: {
-      type: [String]
+      type: String
     },
     level: {
       type: Number
