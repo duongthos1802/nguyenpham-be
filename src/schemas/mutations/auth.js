@@ -4,11 +4,11 @@ import models from '../../models'
 // composer
 import composer from '../composer'
 // extensions
-import { 
-  dateTimeHelper, 
-  stringHelper, 
-  userHelper 
-} from '../../extension'
+import {
+  dateTimeHelper,
+  stringHelper,
+  userHelper
+} from '../../extensions'
 // constants
 import {
   RESOLVER_UPDATE_BY_ID,
