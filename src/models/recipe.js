@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 import timestamp from 'mongoose-timestamp'
 // import Double from '@mongoosejs/double'
 // constants
-import { RECIPE_STATUS } from '../constants/enum'
+import { RECIPE_STATUS, RECIPE_LEVEL } from '../constants/enum'
 
 // const RecipeIngredient = new Schema({
 //   item: {
@@ -48,7 +48,8 @@ const Recipe = new Schema(
       type: String
     },
     level: {
-      type: Number
+      type: String,
+      enum: Object.values(RECIPE_LEVEL)
     },
     images: [
       {
