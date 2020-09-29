@@ -8,6 +8,21 @@ import './mongoose'
 dotenv.config()
 const app = express()
 
+app.post('/uploads', (req, res) => {
+  upload(req, res, function async(err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json(err)
+      // A Multer error occurred when uploading.
+    } else if (err) {
+      return res.status(500).json(err)
+      // An unknown error occurred when uploading.
+    }
+    //check
+    uploadMultipleFiles(req, res)
+    // Everything went fine.
+  })
+})
+
 server.applyMiddleware({
   app,
   path: '/',
