@@ -10,6 +10,12 @@ export const RECIPE_STATUS = {
   DELETED: 'Deleted'
 }
 
+export const RECIPE_LEVEL = {
+  EASY: 'Easy',
+  MEDIUM: 'Medium',
+  DIFFICULT: 'Difficult'
+}
+
 export const PRODUCT_STATUS = {
   PUBLISHED: 'Published',
   SUSPENDED: 'Suspended',
@@ -36,10 +42,4 @@ export const USER_STATUS = {
 export const FAQ_STATUS = {
   NORMAL: 'Normal',
   DELETED: 'Delete'
-}
-
-export const LEVEL_RECIPE = {
-  Easy: 'Easy',
-  Medium: 'Medium',
-  Difficult: 'Difficult'
 }
