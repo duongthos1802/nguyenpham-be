@@ -10,7 +10,7 @@ const server = new ApolloServer({
   schema,
   cors: true,
   playground: process.env.NODE_ENV === 'development' ? true : false,
-  // playground: true,
+  // playground: false,
   maxFileSize: 25 * 1024 * 1024,
   introspection: true,
   tracing: true,

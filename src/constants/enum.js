@@ -37,3 +37,9 @@ export const FAQ_STATUS = {
   NORMAL: 'Normal',
   DELETED: 'Delete'
 }
+
+export const LEVEL_RECIPE = {
+  Easy: 'Easy',
+  Medium: 'Medium',
+  Difficult: 'Difficult'
+}
