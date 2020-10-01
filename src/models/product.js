@@ -33,16 +33,13 @@ const Product = new Schema(
     tutorial: {
       type: String
     },
-    isProtected: {
+    isPriority: {
       type: Boolean,
       default: false
     },
-    logo: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'File'
-      }
-    ],
+    logo: {
+      type: String
+    },
     images: [
       {
         type: Schema.Types.ObjectId,

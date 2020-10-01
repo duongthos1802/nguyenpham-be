@@ -34,10 +34,7 @@ const Recipe = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },
-    priority: {
-      type: Number
-    },
-    isProtected: {
+    isPriority: {
       type: Boolean,
       default: false
     },
