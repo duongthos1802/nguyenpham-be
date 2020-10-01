@@ -2,11 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 import timestamp from 'mongoose-timestamp'
 // import Double from '@mongoosejs/double'
 // constants
-<<<<<<< HEAD
-import { RECIPE_STATUS, LEVEL_RECIPE } from '../constants/enum'
-=======
 import { RECIPE_STATUS, RECIPE_LEVEL } from '../constants/enum'
->>>>>>> 0810256293295f9a8f62565592add90c96eb5a85
 
 // const RecipeIngredient = new Schema({
 //   item: {

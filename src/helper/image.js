@@ -15,7 +15,7 @@ import {
 } from '../constants/image'
 import { RESOLVER_CREATE_ONE } from '../constants/resolver'
 // helpers
-import stringHelper from '../extension/string'
+import stringHelper from '../extensions/string'
 
 dotenv.config()
 
