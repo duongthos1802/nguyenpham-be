@@ -6,9 +6,12 @@ import models from '../../models'
 import composer from '../composer'
 // constants
 import { CACHE_EXPIRATION } from '../../constants/cache'
-import { 
-  RESOLVER_FIND_BY_ID, 
-  RESOLVER_FIND_MANY 
+import {
+  RESOLVER_FIND_BY_ID,
+  RESOLVER_FIND_MANY,
+  RESOLVER_BANNER_FIND_MANY,
+  RESOLVER_BANNER_COUNT,
+  RESOLVER_COUNT
 } from '../../constants/resolver'
 // options
 import { customizationOptions } from '../customizationOptions'
@@ -20,12 +23,12 @@ export const BannerTC = composeWithDataLoader(
   }
 )
 
-BannerTC.addRelation('product', {
-  resolver: () => composer.ProductTC.getResolver(RESOLVER_FIND_BY_ID),
+BannerTC.addRelation('recipe', {
+  resolver: () => composer.RecipeTC.getResolver(RESOLVER_FIND_BY_ID),
   prepareArgs: {
-    _id: (source) => source.product
+    _id: (source) => source.recipe
   },
-  projection: { product: 1 }
+  projection: { recipe: 1 }
 })
 
 BannerTC.addRelation('category', {
@@ -58,4 +61,32 @@ BannerTC.addRelation('bannerGroup', {
   projection: { bannerGroup: 1 }
 })
 
+
+// CUSTOM_RESOLVER
+const resolverFindMany = BannerTC.getResolver(RESOLVER_FIND_MANY)
+const resolverCount = BannerTC.getResolver(RESOLVER_COUNT)
+
+// CUSTOM HOOK
+
+BannerTC.setResolver(
+  RESOLVER_BANNER_FIND_MANY,
+  resolverFindMany.addFilterArg({
+    name: 'keyword',
+    type: 'String',
+    query: (rawQuery, value) => {
+      rawQuery.name = stringHelper.regexMongooseKeyword(value)
+    }
+  })
+)
+
+BannerTC.setResolver(
+  RESOLVER_BANNER_COUNT,
+  resolverCount.addFilterArg({
+    name: 'keyword',
+    type: 'String',
+    query: (rawQuery, value) => {
+      rawQuery.name = stringHelper.regexMongooseKeyword(value)
+    }
+  })
+)
 export default BannerTC

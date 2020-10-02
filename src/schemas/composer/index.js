@@ -1,6 +1,6 @@
 import { LocationTC } from './location'
 import { CategoryTC } from './category'
-import { ProductTC } from './product'
+import { RecipeTC } from './recipe'
 import { BlogTC } from './blog'
 import { BannerTC } from './banner'
 import { BannerGroupTC } from './bannerGroup'
@@ -10,6 +10,7 @@ import { HtmlBlockTC } from './htmlBlock'
 import { FAQTC } from './faq'
 import { VideoTC } from './video'
 import { UserSessionTC } from './userSession'
+import { ProductTC } from './product'
 
 // customs
 import {
@@ -26,10 +27,11 @@ export default {
   FAQTC,
   LocationTC,
   HtmlBlockTC,
-  ProductTC,
+  RecipeTC,
   UserTC,
   UserSessionTC,
   VideoTC,
+  ProductTC,
   // customs composer
   UserPermissonTC,
   AuthAdminTC

@@ -21,9 +21,20 @@ export const validateMongoDBObjectId = (objectId) => {
   return regex.test(String(objectId).toLowerCase())
 }
 
+export const generateRandomStringWithUppercase = (length = 0) => {
+  let randomString = ''
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+
+  for (var i = 0; i < length; i++)
+    randomString += possible.charAt(Math.floor(Math.random() * possible.length))
+
+  return randomString
+}
+
   
 export default {
   regexMongooseKeyword,
   trimAndLowercaseText,
-  validateMongoDBObjectId
+  validateMongoDBObjectId,
+  generateRandomStringWithUppercase
 }

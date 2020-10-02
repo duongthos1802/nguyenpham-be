@@ -8,6 +8,9 @@ const HtmlBlock = new Schema(
       required: true,
       trim: true
     },
+    title: {
+      type: String
+    },
     content: {
       type: String
     }

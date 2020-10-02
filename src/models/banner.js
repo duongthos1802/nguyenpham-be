@@ -8,6 +8,9 @@ const Banner = new Schema({
   url: {
     type: String
   },
+  codeEmbed: {
+    type: String
+  },
   description: {
     type: String
   },
@@ -21,6 +24,9 @@ const Banner = new Schema({
   images: {
     type: [String]
   },
+  imageMobile: {
+    type: String
+  },
   // ref file
   files: [
     {
@@ -28,10 +34,10 @@ const Banner = new Schema({
       ref: 'File'
     }
   ],
-  // ref product
-  product: {
+  // ref recipe
+  recipe: {
     type: Schema.Types.ObjectId,
-    ref: 'Product'
+    ref: 'Recipe'
   },
   // ref category
   category: {

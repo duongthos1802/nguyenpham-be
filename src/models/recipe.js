@@ -1,10 +1,19 @@
 import mongoose, { Schema } from 'mongoose'
 import timestamp from 'mongoose-timestamp'
+// import Double from '@mongoosejs/double'
 // constants
-import { PRODUCT_STATUS } from '../constants/enum'
+import { RECIPE_STATUS, RECIPE_LEVEL } from '../constants/enum'
 
+// const RecipeIngredient = new Schema({
+//   item: {
+//     type: String
+//   },
+//   amount: {
+//     type: Double
+//   }
+// })
 
-const Product = new Schema(
+const Recipe = new Schema(
   {
     name: {
       type: String,
@@ -18,27 +27,26 @@ const Product = new Schema(
     },
     status: {
       type: String,
-      enum: Object.values(PRODUCT_STATUS)
+      enum: Object.values(RECIPE_STATUS)
     },
+    // category ref
     category: {
       type: Schema.Types.ObjectId,
       ref: 'Category'
-    },
-    attribute: {
-      type: String
-    },
-    packing: {
-      type: String
-    },
-    tutorial: {
-      type: String
     },
     isPriority: {
       type: Boolean,
       default: false
     },
-    logo: {
+    ingredient: {
       type: String
+    },
+    method: {
+      type: String
+    },
+    level: {
+      type: String,
+      enum: Object.values(RECIPE_LEVEL)
     },
     images: [
       {
@@ -56,10 +64,13 @@ const Product = new Schema(
       type: Number,
       default: 0
     },
+    videoUrl: {
+      type: String
+    }
   },
-  { collection: 'products' }
+  { collection: 'recipes' }
 )
 
-Product.plugin(timestamp)
+Recipe.plugin(timestamp)
 
-export default mongoose.model('Product', Product)
+export default mongoose.model('Recipe', Recipe)

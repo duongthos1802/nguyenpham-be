@@ -19,13 +19,24 @@ export const RESOLVER_REMOVE_MANY = 'removeMany'
 export const RESOLVER_CATEGORY_FIND_MANY = 'categoryFindMany'
 export const RESOLVER_CATEGORY_COUNT = 'categoryCount'
 
-// CUSTOM PRODUCT
-export const RESOLVER_PRODUCT_FIND_MANY = 'productFindMany'
-export const RESOLVER_PRODUCT_COUNT = 'productCount'
+// CUSTOM RECIPE
+export const RESOLVER_RECIPE_FIND_MANY = 'recipeFindMany'
+export const RESOLVER_RECIPE_COUNT = 'recipeCount'
 
 // CUSTOM HTML BLOCK
 export const RESOLVER_HTML_BLOCK_FIND_MANY = 'htmlBlockFindMany'
 export const RESOLVER_HTML_BLOCK_COUNT = 'htmlBlockCount'
+
+// CUSTOM PRODUCT
+export const RESOLVER_PRODUCT_FIND_MANY = 'productFindMany'
+export const RESOLVER_PRODUCT_COUNT = 'productCount'
+
+// CUSTOM BANNER
+export const RESOLVER_BANNER_FIND_MANY = 'bannerFindMany'
+export const RESOLVER_BANNER_COUNT = 'bannerCount'
+
+export const RESOLVER_BANNER_GROUP_FIND_MANY = 'bannerGroupFindMany'
+export const RESOLVER_BANNER_GROUP_COUNT = 'bannerGroupCount'
 
 
 export default {
@@ -47,10 +58,20 @@ export default {
 
   RESOLVER_CATEGORY_FIND_MANY,
   RESOLVER_CATEGORY_COUNT,
-  
+
+  RESOLVER_RECIPE_FIND_MANY,
+  RESOLVER_RECIPE_COUNT,
+
+  RESOLVER_HTML_BLOCK_FIND_MANY,
+  RESOLVER_HTML_BLOCK_COUNT,
+
   RESOLVER_PRODUCT_FIND_MANY,
   RESOLVER_PRODUCT_COUNT,
 
-  RESOLVER_HTML_BLOCK_FIND_MANY,
-  RESOLVER_HTML_BLOCK_COUNT
+  RESOLVER_BANNER_FIND_MANY,
+  RESOLVER_BANNER_COUNT,
+
+  RESOLVER_BANNER_GROUP_FIND_MANY,
+  RESOLVER_BANNER_GROUP_COUNT
+
 }
