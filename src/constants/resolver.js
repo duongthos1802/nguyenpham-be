@@ -31,6 +31,13 @@ export const RESOLVER_HTML_BLOCK_COUNT = 'htmlBlockCount'
 export const RESOLVER_PRODUCT_FIND_MANY = 'productFindMany'
 export const RESOLVER_PRODUCT_COUNT = 'productCount'
 
+// CUSTOM BANNER
+export const RESOLVER_BANNER_FIND_MANY = 'bannerFindMany'
+export const RESOLVER_BANNER_COUNT = 'bannerCount'
+
+export const RESOLVER_BANNER_GROUP_FIND_MANY = 'bannerGroupFindMany'
+export const RESOLVER_BANNER_GROUP_COUNT = 'bannerGroupCount'
+
 
 export default {
   RESOLVER_FIND_BY_ID,
@@ -59,5 +66,12 @@ export default {
   RESOLVER_HTML_BLOCK_COUNT,
 
   RESOLVER_PRODUCT_FIND_MANY,
-  RESOLVER_PRODUCT_COUNT
+  RESOLVER_PRODUCT_COUNT,
+
+  RESOLVER_BANNER_FIND_MANY,
+  RESOLVER_BANNER_COUNT,
+
+  RESOLVER_BANNER_GROUP_FIND_MANY,
+  RESOLVER_BANNER_GROUP_COUNT
+
 }

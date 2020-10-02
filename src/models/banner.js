@@ -8,6 +8,9 @@ const Banner = new Schema({
   url: {
     type: String
   },
+  codeEmbed: {
+    type: String
+  },
   description: {
     type: String
   },
@@ -20,6 +23,9 @@ const Banner = new Schema({
   },
   images: {
     type: [String]
+  },
+  imageMobile: {
+    type: String
   },
   // ref file
   files: [
