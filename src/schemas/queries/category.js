@@ -41,23 +41,27 @@ export default {
           const {
             // configCategory,
             configCategorySecond,
-            configCategoryThird
+            configCategoryThird,
+            configCategoryFour
           } = config
 
           if (configCategorySecond || configCategoryThird) {
             let idWhereClause = []
-            // if (configCategory && configCategory.key) {
-            //   idWhereClause.push(configCategory.key)
-            // }
+
             if (configCategorySecond && configCategorySecond.key) {
               idWhereClause.push(configCategorySecond.key)
             }
             if (configCategoryThird && configCategoryThird.key) {
               idWhereClause.push(configCategoryThird.key)
             }
+
+            if (configCategoryFour && configCategoryFour.key) {
+              idWhereClause.push(configCategoryFour.key)
+            }
+
             whereClause._operators = {
               _id: {
-                in: ["5f6fc5248f0e7516d3aee8b4", "5f717e4e058d1d0845250a18"]
+                in: idWhereClause
               }
             }
           }
