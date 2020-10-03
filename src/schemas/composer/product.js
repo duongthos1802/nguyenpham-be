@@ -8,6 +8,7 @@ import { CACHE_EXPIRATION } from '../../constants/cache'
 import { customizationOptions } from '../customizationOptions'
 import { RESOLVER_FIND_BY_ID, RESOLVER_PRODUCT_FIND_MANY, RESOLVER_FIND_MANY } from '../../constants/resolver'
 import composer from '../composer'
+import { ProductStatus } from './enum'
 
 export const ProductTC = composeWithDataLoader(
   composeWithMongoose(models.Product, customizationOptions),
@@ -37,13 +38,13 @@ ProductTC.setResolver(
         rawQuery.name = stringHelper.regexMongooseKeyword(value)
       }
     })
-    // .addFilterArg({
-    //   name: 'status_not_in',
-    //   type: [ProductStatus],
-    //   query: (rawQuery, value) => {
-    //     rawQuery.status = { $nin: value }
-    //   }
-    // })
+    .addFilterArg({
+      name: 'status_not_in',
+      type: [ProductStatus],
+      query: (rawQuery, value) => {
+        rawQuery.status = { $nin: value }
+      }
+    })
     // .addFilterArg({
     //   name: 'date_lte',
     //   type: [ProductStatus],

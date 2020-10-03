@@ -2,6 +2,7 @@ import { schemaComposer } from 'graphql-compose'
 import models from "../../models";
 import { UserTC } from '../composer/user'
 import { UserSessionTC } from '../composer/userSession'
+import ProductTC from './product';
 
 export const UserPermissonTC = schemaComposer.createObjectTC({
   name: "UserPermisson",
@@ -17,6 +18,18 @@ export const AuthAdminTC = schemaComposer.createObjectTC({
     token: "String!",
     user: UserTC,
     userSession: UserSessionTC,
-    permissions: [ UserPermissonTC ]
+    permissions: [UserPermissonTC]
   },
 });
+
+export const CategoryFeatureTC = schemaComposer.createObjectTC({
+  name: 'CategoryFeature',
+  fields: {
+    id: 'ID!',
+    index: 'Int!',
+    name: 'String!',
+    slug: 'String',
+    products: [ProductTC]
+  }
+})
+
