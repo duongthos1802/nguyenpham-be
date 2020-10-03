@@ -11,11 +11,14 @@ import { FAQTC } from './faq'
 import { VideoTC } from './video'
 import { UserSessionTC } from './userSession'
 import { ProductTC } from './product'
+import { PageTC } from './page'
+
 
 // customs
 import {
   UserPermissonTC,
-  AuthAdminTC
+  AuthAdminTC,
+  CategoryFeatureTC
 } from './custom'
 
 export default {
@@ -32,7 +35,9 @@ export default {
   UserSessionTC,
   VideoTC,
   ProductTC,
+  PageTC,
   // customs composer
   UserPermissonTC,
-  AuthAdminTC
+  AuthAdminTC,
+  CategoryFeatureTC
 }

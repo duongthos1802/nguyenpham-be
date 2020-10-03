@@ -38,6 +38,10 @@ export const RESOLVER_BANNER_COUNT = 'bannerCount'
 export const RESOLVER_BANNER_GROUP_FIND_MANY = 'bannerGroupFindMany'
 export const RESOLVER_BANNER_GROUP_COUNT = 'bannerGroupCount'
 
+// CUSTOM PAGE
+export const RESOLVER_PAGE_FIND_MANY = 'pageFindMany'
+export const RESOLVER_PAGE_COUNT = 'pageCount'
+
 
 export default {
   RESOLVER_FIND_BY_ID,
@@ -72,6 +76,9 @@ export default {
   RESOLVER_BANNER_COUNT,
 
   RESOLVER_BANNER_GROUP_FIND_MANY,
-  RESOLVER_BANNER_GROUP_COUNT
+  RESOLVER_BANNER_GROUP_COUNT,
+
+  RESOLVER_PAGE_FIND_MANY,
+  RESOLVER_PAGE_COUNT
 
 }

@@ -1,1 +1,5 @@
 export const MAX_VALID_LIMIT_ARG = 100
+
+export const CATEGORY_FEATURE_COUNT = 2
+
+export const PRODUCT_IN_CATEGORY_FEATURE_COUNT = 12
