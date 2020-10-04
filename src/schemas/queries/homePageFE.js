@@ -67,4 +67,33 @@ export default {
       }
     }
   },
+
+  getEventHomePage: {
+    type: composer.HtmlBlockGroupTC,
+    args: {
+      where: 'JSON'
+    },
+    resolve: async (_, { where }, context, info) => {
+      // query
+      try {
+        // 1. get config home page
+        const config = await pageHelper.getConfigHomePage()
+
+        if (!config || !config.configEventLeft) {
+          return null
+        }
+
+        // 2. get service by config
+        return await composer.HtmlBlockGroupTC.getResolver(
+          RESOLVER_FIND_BY_ID
+        ).resolve({
+          args: {
+            _id: config.configEventLeft.key
+          }
+        })
+      } catch (error) {
+        throw new Error(error)
+      }
+    }
+  },
 }
