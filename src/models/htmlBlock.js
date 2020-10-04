@@ -31,6 +31,10 @@ const HtmlBlock = new Schema(
         ref: 'File'
       }
     ],
+    htmlBlockGroup: {
+      type: Schema.Types.ObjectId,
+      ref: 'HtmlBlockGroup'
+    }
   },
   {
     collection: 'htmlBlocks'
