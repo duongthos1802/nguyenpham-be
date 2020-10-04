@@ -21,7 +21,6 @@ import stringHelper from '../extensions/string'
 dotenv.config()
 
 const generatePathFileByType = (type) => {
-  console.log('type...', type)
   switch (type) {
     case UPLOAD_TYPE.PRODUCT:
       return PRODUCT_UPLOAD_PATH
