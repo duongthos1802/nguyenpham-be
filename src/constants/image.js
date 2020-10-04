@@ -1,7 +1,6 @@
 export const PRODUCT_PATH = 'product_pictures'
 export const BANNER_PATH = 'banner_pictures'
 export const RECIPE_PATH = 'recipe_pictures'
-export const RECIPE_PATH = 'recipe_pictures'
 export const HTML_BLOCK_PATH = 'html_block_pictures'
 
 /*
