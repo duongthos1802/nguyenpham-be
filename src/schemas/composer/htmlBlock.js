@@ -16,9 +16,11 @@ import {
   RESOLVER_HTML_BLOCK_COUNT,
   RESOLVER_HTML_BLOCK_FIND_MANY,
   RESOLVER_UPDATE_ONE,
-  RESOLVER_CREATE_ONE
+  RESOLVER_CREATE_ONE,
+  RESOLVER_FIND_BY_ID
 } from '../../constants/resolver'
 import { ERROR_MESSAGE } from '../../constants/errorCode'
+import composer from '.'
 
 
 export const HtmlBlockTC = composeWithDataLoader(
@@ -27,6 +29,15 @@ export const HtmlBlockTC = composeWithDataLoader(
     cacheExpiration: CACHE_EXPIRATION
   }
 )
+
+HtmlBlockTC.addRelation('htmlBlockGroup', {
+  resolver: () => composer.HtmlBlockGroupTC.getResolver(RESOLVER_FIND_BY_ID),
+  prepareArgs: {
+    _id: (source) => source.htmlBlockGroup
+  },
+  projection: { htmlBlockGroup: 1 }
+})
+
 
 // CUSTOM RESOLVER
 const resolverFindMany = HtmlBlockTC.getResolver(RESOLVER_FIND_MANY)

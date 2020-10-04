@@ -7,11 +7,12 @@ const https = require('https')
 // composers
 import composer from '../schemas/composer'
 // constants
-import { 
-  PRODUCT_UPLOAD_PATH, 
-  BANNER_UPLOAD_PATH, 
-  RECIPE_UPLOAD_PATH, 
-  UPLOAD_TYPE 
+import {
+  PRODUCT_UPLOAD_PATH,
+  BANNER_UPLOAD_PATH,
+  RECIPE_UPLOAD_PATH,
+  HTML_BLOCK_UPLOAD_PATH,
+  UPLOAD_TYPE
 } from '../constants/image'
 import { RESOLVER_CREATE_ONE } from '../constants/resolver'
 // helpers
@@ -20,6 +21,7 @@ import stringHelper from '../extensions/string'
 dotenv.config()
 
 const generatePathFileByType = (type) => {
+  console.log('type...', type)
   switch (type) {
     case UPLOAD_TYPE.PRODUCT:
       return PRODUCT_UPLOAD_PATH
@@ -27,6 +29,8 @@ const generatePathFileByType = (type) => {
       return RECIPE_UPLOAD_PATH
     case UPLOAD_TYPE.BANNER:
       return BANNER_UPLOAD_PATH
+    case UPLOAD_TYPE.HTML_BLOCK:
+      return HTML_BLOCK_UPLOAD_PATH
     default:
       return PRODUCT_UPLOAD_PATH
   }

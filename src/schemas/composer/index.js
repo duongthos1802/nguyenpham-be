@@ -7,6 +7,7 @@ import { BannerGroupTC } from './bannerGroup'
 import { FileTC } from './file'
 import { UserTC } from './user'
 import { HtmlBlockTC } from './htmlBlock'
+import { HtmlBlockGroupTC } from './htmlBlockGroup'
 import { FAQTC } from './faq'
 import { VideoTC } from './video'
 import { UserSessionTC } from './userSession'
@@ -36,6 +37,7 @@ export default {
   VideoTC,
   ProductTC,
   PageTC,
+  HtmlBlockGroupTC,
   // customs composer
   UserPermissonTC,
   AuthAdminTC,

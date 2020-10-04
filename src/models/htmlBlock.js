@@ -13,6 +13,27 @@ const HtmlBlock = new Schema(
     },
     content: {
       type: String
+    },
+    image: {
+      type: String
+    },
+    images: {
+      type: [String]
+    },
+    pictures: {
+      type: [String]
+    },
+
+    // ref file
+    files: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+      }
+    ],
+    htmlBlockGroup: {
+      type: Schema.Types.ObjectId,
+      ref: 'HtmlBlockGroup'
     }
   },
   {

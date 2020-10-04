@@ -84,7 +84,6 @@ export default {
         // 2. get category info
         let resultData = []
 
-        console.log('categories......', categories.length)
         await Promise.all(
           categories.map(async (category) => {
             // 2.1. get category name

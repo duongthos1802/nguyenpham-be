@@ -6,25 +6,25 @@ import models from '../../models'
 import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
-import BannerTC from './banner'
-import { RESOLVER_BANNER_FIND_MANY } from '../../constants/resolver'
+import HtmlBlockTC from './htmlBlock'
+import { RESOLVER_HTML_BLOCK_FIND_MANY } from '../../constants/resolver'
 
-export const BannerGroupTC = composeWithDataLoader(
-  composeWithMongoose(models.BannerGroup, customizationOptions),
+export const HtmlBlockGroupTC = composeWithDataLoader(
+  composeWithMongoose(models.HtmlBlockGroup, customizationOptions),
   {
     cacheExpiration: CACHE_EXPIRATION
   }
 )
 
-BannerGroupTC.addFields({
-  banner: {
-    type: [BannerTC],
-    args: BannerTC.getResolver(RESOLVER_BANNER_FIND_MANY).getArgs(),
+HtmlBlockGroupTC.addFields({
+  htmlBlock: {
+    type: [HtmlBlockTC],
+    args: HtmlBlockTC.getResolver(RESOLVER_HTML_BLOCK_FIND_MANY).getArgs(),
     resolve: async (source, args, context, info) => {
       const rawQuery = {
-        bannerGroup: source._id
+        htmlBlockGroup: source._id
       }
-      return BannerTC.getResolver(RESOLVER_BANNER_FIND_MANY).resolve({
+      return HtmlBlockTC.getResolver(RESOLVER_HTML_BLOCK_FIND_MANY).resolve({
         source,
         args,
         context,
@@ -36,4 +36,4 @@ BannerGroupTC.addFields({
 })
 
 
-export default BannerGroupTC
+export default HtmlBlockGroupTC
