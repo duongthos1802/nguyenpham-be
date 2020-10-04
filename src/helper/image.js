@@ -7,11 +7,12 @@ const https = require('https')
 // composers
 import composer from '../schemas/composer'
 // constants
-import { 
-  PRODUCT_UPLOAD_PATH, 
-  BANNER_UPLOAD_PATH, 
-  RECIPE_UPLOAD_PATH, 
-  UPLOAD_TYPE 
+import {
+  PRODUCT_UPLOAD_PATH,
+  BANNER_UPLOAD_PATH,
+  RECIPE_UPLOAD_PATH,
+  HTML_BLOCK_PATH,
+  UPLOAD_TYPE
 } from '../constants/image'
 import { RESOLVER_CREATE_ONE } from '../constants/resolver'
 // helpers
@@ -27,6 +28,8 @@ const generatePathFileByType = (type) => {
       return RECIPE_UPLOAD_PATH
     case UPLOAD_TYPE.BANNER:
       return BANNER_UPLOAD_PATH
+    case UPLOAD_TYPE.HTML_BLOCK:
+      return HTML_BLOCK_PATH
     default:
       return PRODUCT_UPLOAD_PATH
   }
