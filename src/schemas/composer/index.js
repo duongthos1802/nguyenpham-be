@@ -21,7 +21,9 @@ import {
   AuthAdminTC,
   CategoryFeatureTC,
   EventHomeTC,
-  SearchProductTC
+  SearchProductTC,
+  SearchRecipeTC,
+  SearchCategoryTC
 } from './custom'
 
 export default {
@@ -45,5 +47,7 @@ export default {
   AuthAdminTC,
   CategoryFeatureTC,
   EventHomeTC,
-  SearchProductTC
+  SearchProductTC,
+  SearchRecipeTC,
+  SearchCategoryTC
 }

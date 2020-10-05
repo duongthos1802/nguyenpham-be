@@ -1,4 +1,8 @@
+// models
+import models from '../../models'
+// composer
 import composer from '../composer'
+// constants
 import {
   RESOLVER_FIND_MANY,
   RESOLVER_FIND_BY_ID,
@@ -7,13 +11,15 @@ import {
   RESOLVER_COUNT,
   RESOLVER_PRODUCT_FIND_MANY
 } from '../../constants/resolver'
-import { pageHelper } from '../../models/extensions'
 import {
   CATEGORY_FEATURE_COUNT,
   CATEGORY_NAME,
   PRODUCT_IN_CATEGORY_FEATURE_COUNT
 } from '../../constants'
 import { PRODUCT_STATUS } from '../../constants/enum'
+// extensions
+import { pageHelper, sortHelper } from '../../models/extensions'
+import { stringHelper } from '../../extensions'
 
 const CategoryTC = composer.CategoryTC
 
@@ -127,5 +133,82 @@ export default {
       }
     }
   },
+  searchCategories: {
+    type: composer.SearchCategoryTC,
+    args: {
+      where: 'JSON',
+      skip: 'Int',
+      first: 'Int',
+      sortBy: 'String'
+    },
+    resolve: async (_, { skip, first, where, sortBy }, context, info) => {
+      // try {
+      let optionMatchClause = {}
+      let aggregateClause = []
+      const searchCategory = {
+        total: 0,
+        items: []
+      }
+      
+      //group items
+      aggregateClause.push({
+        $group: {
+          _id: '$_id',
+          items: { $last: '$$ROOT' }
+        }
+      })
 
+      if (where) {
+        const {
+          keyword,
+          status
+        } = where
+        //search keyword
+        if (keyword && keyword !== '') {
+          optionMatchClause.name = stringHelper.regexMongooseKeyword(keyword)
+          aggregateClause.push({ $match: optionMatchClause })
+        }
+        if (status && status !== '') {
+          optionMatchClause.status = stringHelper.regexMongooseKeyword(status)
+          aggregateClause.push({ $match: optionMatchClause })
+        }
+      }
+
+      let sortByCategory = sortHelper.getSortCategory(sortBy)
+        sortByCategory = {
+          ...sortByCategory
+        }
+
+      aggregateClause.push({ $sort: sortByCategory })
+
+      aggregateClause.push({
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+          entries: { $push: '$items' }
+        }
+      })
+
+      aggregateClause.push({
+        $project: {
+          _id: 0,
+          total: '$count',
+          items: {
+            $slice: ['$entries', skip || 0, first || 10]
+          }
+        }
+      })
+      const categories = await models.Category.aggregate(aggregateClause)
+      // find categories with clauses
+      if (!!categories) {
+        if (categories.length > 0) {
+          //list Category
+          searchCategory.total = categories[0].total
+          searchCategory.items = categories[0].items
+        }
+      }
+
+      return searchCategory
+    }
+  },
 }

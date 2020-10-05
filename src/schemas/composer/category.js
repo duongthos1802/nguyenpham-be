@@ -8,7 +8,8 @@ import { CACHE_EXPIRATION } from '../../constants/cache'
 import { customizationOptions } from '../customizationOptions'
 import { RESOLVER_PRODUCT_FIND_MANY, RESOLVER_FIND_BY_ID, RESOLVER_CATEGORY_FIND_MANY, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_CATEGORY_COUNT } from '../../constants/resolver'
 import { ProductTC } from './product'
-import composer from '.'
+// composer
+import composer from '../composer'
 
 export const CategoryTC = composeWithDataLoader(
   composeWithMongoose(models.Category, customizationOptions),

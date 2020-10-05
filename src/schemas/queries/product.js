@@ -17,7 +17,7 @@ import { PRODUCT_STATUS } from '../../constants/enum'
 // extensions
 import { stringHelper, dateTimeHelper } from '../../extensions'
 import { FORMAT_DATE_EN, EUROPE_TIMEZONE } from '../../extensions/dateTime'
-import { pageHelper, productHelper } from '../../models/extensions'
+import { pageHelper, sortHelper } from '../../models/extensions'
 
 const ProductTC = composer.ProductTC
 
@@ -73,6 +73,14 @@ export default {
         items: []
       }
 
+      //group items
+      aggregateClause.push({
+        $group: {
+          _id: '$_id',
+          items: { $last: '$$ROOT' }
+        }
+      })
+
       if (where) {
         const {
           keyword,
@@ -101,20 +109,12 @@ export default {
         }
       }
 
-      let sortByProduct = productHelper.getSortProduct(sortBy)
+      let sortByProduct = sortHelper.getSortProduct(sortBy)
         sortByProduct = {
           ...sortByProduct
         }
 
       aggregateClause.push({ $sort: sortByProduct })
-
-      //group items
-      aggregateClause.push({
-        $group: {
-          _id: '$_id',
-          items: { $last: '$$ROOT' }
-        }
-      })
 
       aggregateClause.push({
         $group: {

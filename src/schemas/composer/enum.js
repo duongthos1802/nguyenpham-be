@@ -1,6 +1,6 @@
 import { schemaComposer } from 'graphql-compose'
 import {
-  PRODUCT_STATUS
+  PRODUCT_STATUS, RECIPE_STATUS
 } from '../../constants/enum'
 
 const generateEnumValue = (enumValue) => {
@@ -17,4 +17,9 @@ const generateEnumValue = (enumValue) => {
 export const ProductStatus = schemaComposer.createEnumTC({
   name: 'ProductStatus',
   values: generateEnumValue(PRODUCT_STATUS)
+})
+
+export const RecipeStatus = schemaComposer.createEnumTC({
+  name: 'RecipeStatus',
+  values: generateEnumValue(RECIPE_STATUS)
 })

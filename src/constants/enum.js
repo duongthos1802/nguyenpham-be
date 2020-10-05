@@ -1,7 +1,6 @@
 export const CATEGORY_STATUS = {
   PUBLISHED: 'Published',
-  SUSPENDED: 'Suspended',
-  DELETED: 'Deleted'
+  SUSPENDED: 'Suspended'
 }
 
 export const RECIPE_STATUS = {
