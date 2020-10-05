@@ -19,7 +19,8 @@ import { PageTC } from './page'
 import {
   UserPermissonTC,
   AuthAdminTC,
-  CategoryFeatureTC
+  CategoryFeatureTC,
+  EventHomeTC
 } from './custom'
 
 export default {
@@ -41,5 +42,6 @@ export default {
   // customs composer
   UserPermissonTC,
   AuthAdminTC,
-  CategoryFeatureTC
+  CategoryFeatureTC,
+  EventHomeTC
 }
