@@ -42,3 +42,11 @@ export const EventHomeTC = schemaComposer.createObjectTC({
     eventRight: HtmlBlockGroupTC
   }
 })
+
+export const SearchProductTC = schemaComposer.createObjectTC({
+  name: "SearchProduct",
+  fields: {
+    items: [ProductTC],
+    total: "Int",
+  },
+});

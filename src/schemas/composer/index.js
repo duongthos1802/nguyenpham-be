@@ -20,7 +20,8 @@ import {
   UserPermissonTC,
   AuthAdminTC,
   CategoryFeatureTC,
-  EventHomeTC
+  EventHomeTC,
+  SearchProductTC
 } from './custom'
 
 export default {
@@ -43,5 +44,6 @@ export default {
   UserPermissonTC,
   AuthAdminTC,
   CategoryFeatureTC,
-  EventHomeTC
+  EventHomeTC,
+  SearchProductTC
 }
