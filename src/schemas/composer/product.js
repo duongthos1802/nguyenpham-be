@@ -2,13 +2,22 @@ import composeWithMongoose from 'graphql-compose-mongoose'
 import composeWithDataLoader from '../../vendor/graphql-compose-dataloader'
 // models
 import models from '../../models'
+// composer
+import composer from '../composer'
 // constants
 import { CACHE_EXPIRATION } from '../../constants/cache'
+import { ProductStatus } from './enum'
+import { 
+  RESOLVER_FIND_BY_ID, 
+  RESOLVER_PRODUCT_FIND_MANY, 
+  RESOLVER_FIND_MANY, 
+  RESOLVER_PRODUCT_COUNT, 
+  RESOLVER_COUNT 
+} from '../../constants/resolver'
 // options
 import { customizationOptions } from '../customizationOptions'
-import { RESOLVER_FIND_BY_ID, RESOLVER_PRODUCT_FIND_MANY, RESOLVER_FIND_MANY } from '../../constants/resolver'
-import composer from '../composer'
-import { ProductStatus } from './enum'
+// extensions
+import { stringHelper } from '../../extensions'
 
 export const ProductTC = composeWithDataLoader(
   composeWithMongoose(models.Product, customizationOptions),
@@ -27,6 +36,7 @@ ProductTC.addRelation('category', {
 
 // CUSTOM RESOLVER
 const resolverFindMany = ProductTC.getResolver(RESOLVER_FIND_MANY)
+const resolverCount = ProductTC.getResolver(RESOLVER_COUNT)
 
 ProductTC.setResolver(
   RESOLVER_PRODUCT_FIND_MANY,
@@ -89,6 +99,25 @@ ProductTC.setResolver(
         return { name: 1 }
       }
     })
-
 )
+
+ProductTC.setResolver(
+  RESOLVER_PRODUCT_COUNT,
+  resolverCount
+    .addFilterArg({
+      name: 'keyword',
+      type: 'String',
+      query: (rawQuery, value) => {
+        rawQuery.name = stringHelper.regexMongooseKeyword(value)
+      }
+    })
+    .addFilterArg({
+      name: 'status_not_in',
+      type: [ProductStatus],
+      query: (rawQuery, value) => {
+        rawQuery.status = { $nin: value }
+      }
+    })
+)
+
 export default ProductTC

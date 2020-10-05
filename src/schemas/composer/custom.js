@@ -4,6 +4,8 @@ import { UserTC } from '../composer/user'
 import { UserSessionTC } from '../composer/userSession'
 import ProductTC from './product';
 import HtmlBlockGroupTC from './htmlBlockGroup';
+import RecipeTC from './recipe';
+import CategoryTC from './category';
 
 export const UserPermissonTC = schemaComposer.createObjectTC({
   name: "UserPermisson",
@@ -42,3 +44,27 @@ export const EventHomeTC = schemaComposer.createObjectTC({
     eventRight: HtmlBlockGroupTC
   }
 })
+
+export const SearchProductTC = schemaComposer.createObjectTC({
+  name: "SearchProduct",
+  fields: {
+    items: [ProductTC],
+    total: "Int",
+  },
+});
+
+export const SearchRecipeTC = schemaComposer.createObjectTC({
+  name: "SearchRecipe",
+  fields: {
+    items: [RecipeTC],
+    total: "Int",
+  },
+});
+
+export const SearchCategoryTC = schemaComposer.createObjectTC({
+  name: "SearchCategory",
+  fields: {
+    items: [CategoryTC],
+    total: "Int",
+  },
+});
