@@ -16,6 +16,12 @@ const Category = new Schema(
     description: {
       type: String
     },
+    url: {
+      type: String
+    },
+    urlSlug: {
+      type: String
+    },
     slug: {
       type: String
     },
