@@ -69,28 +69,55 @@ export default {
   },
 
   getEventHomePage: {
-    type: composer.HtmlBlockGroupTC,
+    type: composer.EventHomeTC,
     args: {
       where: 'JSON'
     },
     resolve: async (_, { where }, context, info) => {
       // query
       try {
+        const event = {
+          eventLeft: null,
+          eventRight: null
+        }
         // 1. get config home page
         const config = await pageHelper.getConfigHomePage()
 
-        if (!config || !config.configEventLeft) {
-          return null
+        console.log('config.......', config);
+
+        // if (!config && !config.configEventLeft && !config.configEventRight) {
+        //   return null
+        // }
+
+        if (config) {
+
+          const { configEventLeft, configEventRight } = config
+          // 2. get event by config
+          // let eventLeft = null
+
+          if (configEventLeft) {
+            event.eventLeft = await composer.HtmlBlockGroupTC.getResolver(
+              RESOLVER_FIND_BY_ID
+            ).resolve({
+              args: {
+                _id: configEventLeft.key
+              }
+            })
+          }
+
+          if (configEventRight) {
+            event.eventRight = await composer.HtmlBlockGroupTC.getResolver(
+              RESOLVER_FIND_BY_ID
+            ).resolve({
+              args: {
+                _id: configEventRight.key
+              }
+            })
+          }
         }
 
-        // 2. get service by config
-        return await composer.HtmlBlockGroupTC.getResolver(
-          RESOLVER_FIND_BY_ID
-        ).resolve({
-          args: {
-            _id: config.configEventLeft.key
-          }
-        })
+        return event
+
       } catch (error) {
         throw new Error(error)
       }

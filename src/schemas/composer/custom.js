@@ -3,6 +3,7 @@ import models from "../../models";
 import { UserTC } from '../composer/user'
 import { UserSessionTC } from '../composer/userSession'
 import ProductTC from './product';
+import HtmlBlockGroupTC from './htmlBlockGroup';
 
 export const UserPermissonTC = schemaComposer.createObjectTC({
   name: "UserPermisson",
@@ -33,3 +34,11 @@ export const CategoryFeatureTC = schemaComposer.createObjectTC({
   }
 })
 
+
+export const EventHomeTC = schemaComposer.createObjectTC({
+  name: 'EventModel',
+  fields: {
+    eventLeft: HtmlBlockGroupTC,
+    eventRight: HtmlBlockGroupTC
+  }
+})
