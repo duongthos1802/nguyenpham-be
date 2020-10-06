@@ -198,7 +198,6 @@ const auth = {
           userSession: userSession
         }
       } catch (error) {
-        console.log('errrororor', error)
         throw new Error(error)
       }
     }
