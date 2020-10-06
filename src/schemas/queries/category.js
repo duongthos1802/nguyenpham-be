@@ -169,12 +169,6 @@ export default {
         aggregateClause.push({ $match: optionMatchClause })
       }
 
-      let sortByCategory = sortHelper.getSortCategory(sortBy)
-        sortByCategory = {
-          ...sortByCategory
-        }
-
-      aggregateClause.push({ $sort: sortByCategory })
 
       //group items
       aggregateClause.push({
@@ -183,6 +177,14 @@ export default {
           items: { $last: '$$ROOT' }
         }
       })
+
+      
+      let sortByCategory = sortHelper.getSortCategory(sortBy)
+        sortByCategory = {
+          ...sortByCategory
+        }
+
+      aggregateClause.push({ $sort: sortByCategory })
 
       aggregateClause.push({
         $group: {
