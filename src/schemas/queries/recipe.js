@@ -81,13 +81,6 @@ export default {
         aggregateClause.push({ $match: optionMatchClause })
       }
 
-      let sortByRecipe = sortHelper.getSortRecipe(sortBy)
-        sortByRecipe = {
-          ...sortByRecipe
-        }
-
-      aggregateClause.push({ $sort: sortByRecipe })
-
       aggregateClause.push({
         $group: {
           _id: null,
@@ -95,6 +88,13 @@ export default {
           entries: { $push: '$items' }
         }
       })
+
+      let sortByRecipe = sortHelper.getSortRecipe(sortBy)
+        sortByRecipe = {
+          ...sortByRecipe
+        }
+
+      aggregateClause.push({ $sort: sortByRecipe })
 
       aggregateClause.push({
         $project: {

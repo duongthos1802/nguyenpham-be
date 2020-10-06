@@ -102,14 +102,6 @@ export default {
         aggregateClause.push({ $match: optionMatchClause })
       }
 
-      let sortByProduct = sortHelper.getSortProduct(sortBy)
-        sortByProduct = {
-          ...sortByProduct
-        }
-
-      aggregateClause.push({ $sort: sortByProduct })
-
-
       //group items
       aggregateClause.push({
         $group: {
@@ -117,6 +109,13 @@ export default {
           items: { $last: '$$ROOT' }
         }
       })
+
+      let sortByProduct = sortHelper.getSortProduct(sortBy)
+        sortByProduct = {
+          ...sortByProduct
+        }
+
+      aggregateClause.push({ $sort: sortByProduct })
 
       aggregateClause.push({
         $group: {
