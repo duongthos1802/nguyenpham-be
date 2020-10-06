@@ -41,6 +41,18 @@ const Blog = new Schema(
     metaKeyword: {
       type: String
     },
+    images: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+      }
+    ],
+    pictures: {
+      type: [String]
+    },
+    picturesThumbnails: {
+      type: [String]
+    },
     viewCount: {
       type: Number,
       default: 0
