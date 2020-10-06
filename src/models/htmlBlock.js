@@ -11,6 +11,9 @@ const HtmlBlock = new Schema(
     title: {
       type: String
     },
+    description: {
+      type: String
+    },
     content: {
       type: String
     },
