@@ -73,14 +73,6 @@ export default {
         items: []
       }
 
-      //group items
-      aggregateClause.push({
-        $group: {
-          _id: '$_id',
-          items: { $last: '$$ROOT' }
-        }
-      })
-
       if (where) {
         const {
           keyword,
@@ -95,18 +87,19 @@ export default {
           }).exec()
           if (cat !== null) {
             optionMatchClause.category = cat._id
-            aggregateClause.push({ $match: optionMatchClause })
           }
         }
         //search keyword
         if (keyword && keyword !== '') {
           optionMatchClause.name = stringHelper.regexMongooseKeyword(keyword)
-          aggregateClause.push({ $match: optionMatchClause })
         }
         if (status && status !== '') {
           optionMatchClause.status = stringHelper.regexMongooseKeyword(status)
-          aggregateClause.push({ $match: optionMatchClause })
         }
+      }
+
+      if (Object.keys(optionMatchClause).length > 0) {
+        aggregateClause.push({ $match: optionMatchClause })
       }
 
       let sortByProduct = sortHelper.getSortProduct(sortBy)
@@ -115,6 +108,15 @@ export default {
         }
 
       aggregateClause.push({ $sort: sortByProduct })
+
+
+      //group items
+      aggregateClause.push({
+        $group: {
+          _id: '$_id',
+          items: { $last: '$$ROOT' }
+        }
+      })
 
       aggregateClause.push({
         $group: {

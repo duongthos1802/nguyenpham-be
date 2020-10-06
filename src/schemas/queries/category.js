@@ -150,13 +150,6 @@ export default {
         items: []
       }
       
-      //group items
-      aggregateClause.push({
-        $group: {
-          _id: '$_id',
-          items: { $last: '$$ROOT' }
-        }
-      })
 
       if (where) {
         const {
@@ -166,12 +159,14 @@ export default {
         //search keyword
         if (keyword && keyword !== '') {
           optionMatchClause.name = stringHelper.regexMongooseKeyword(keyword)
-          aggregateClause.push({ $match: optionMatchClause })
         }
         if (status && status !== '') {
           optionMatchClause.status = stringHelper.regexMongooseKeyword(status)
-          aggregateClause.push({ $match: optionMatchClause })
         }
+      }
+
+      if (Object.keys(optionMatchClause).length > 0) {
+        aggregateClause.push({ $match: optionMatchClause })
       }
 
       let sortByCategory = sortHelper.getSortCategory(sortBy)
@@ -180,6 +175,14 @@ export default {
         }
 
       aggregateClause.push({ $sort: sortByCategory })
+
+      //group items
+      aggregateClause.push({
+        $group: {
+          _id: '$_id',
+          items: { $last: '$$ROOT' }
+        }
+      })
 
       aggregateClause.push({
         $group: {
