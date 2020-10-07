@@ -2,10 +2,13 @@ import composeWithMongoose from 'graphql-compose-mongoose'
 import composeWithDataLoader from '../../vendor/graphql-compose-dataloader'
 // models
 import models from '../../models'
+// composer
+import composer from '../composer'
 // constants
 import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
+import { RESOLVER_FIND_BY_ID } from '../../constants/resolver'
 
 export const VideoTC = composeWithDataLoader(
   composeWithMongoose(models.Video, customizationOptions),
@@ -13,5 +16,13 @@ export const VideoTC = composeWithDataLoader(
     cacheExpiration: CACHE_EXPIRATION
   }
 )
+
+VideoTC.addRelation('category', {
+  resolver: () => composer.CategoryTC.getResolver(RESOLVER_FIND_BY_ID),
+  prepareArgs: {
+    _id: (source) => source.category
+  },
+  projection: { category: 1 }
+})
 
 export default VideoTC

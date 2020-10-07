@@ -18,6 +18,15 @@ const Video = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },
+    images: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+      }
+    ],
+    pictures: {
+      type: [String]
+    },
     status: {
       type: String,
       enum: Object.values(VIDEO_STATUS)

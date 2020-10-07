@@ -12,7 +12,7 @@ import {
   BANNER_UPLOAD_PATH,
   RECIPE_UPLOAD_PATH,
   HTML_BLOCK_UPLOAD_PATH,
-  UPLOAD_TYPE
+  UPLOAD_TYPE, BLOG_UPLOAD_PATH, VIDEO_UPLOAD_PATH
 } from '../constants/image'
 import { RESOLVER_CREATE_ONE } from '../constants/resolver'
 // helpers
@@ -30,6 +30,10 @@ const generatePathFileByType = (type) => {
       return BANNER_UPLOAD_PATH
     case UPLOAD_TYPE.HTML_BLOCK:
       return HTML_BLOCK_UPLOAD_PATH
+    case UPLOAD_TYPE.BLOG:
+      return BLOG_UPLOAD_PATH
+    case UPLOAD_TYPE.VIDEO:
+      return VIDEO_UPLOAD_PATH
     default:
       return PRODUCT_UPLOAD_PATH
   }
