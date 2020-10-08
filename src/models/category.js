@@ -16,7 +16,7 @@ const Category = new Schema(
     description: {
       type: String
     },
-    url: {
+    slug: {
       type: String
     },
     parentId: {
