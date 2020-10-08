@@ -19,12 +19,6 @@ const Category = new Schema(
     url: {
       type: String
     },
-    urlSlug: {
-      type: String
-    },
-    slug: {
-      type: String
-    },
     parentId: {
       type: Schema.Types.ObjectId,
       ref: 'Category'
