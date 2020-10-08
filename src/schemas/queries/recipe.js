@@ -68,24 +68,18 @@ export default {
         //search keyword
         if (keyword && keyword !== '') {
           optionMatchClause.name = stringHelper.regexMongooseKeyword(keyword)
-          aggregateClause.push({ $match: optionMatchClause })
         }
         if (status && status !== '') {
           optionMatchClause.status = stringHelper.regexMongooseKeyword(status)
-          aggregateClause.push({ $match: optionMatchClause })
         }
         if (level && level !== '') {
           optionMatchClause.level = stringHelper.regexMongooseKeyword(level)
-          aggregateClause.push({ $match: optionMatchClause })
         }
       }
 
-      let sortByRecipe = sortHelper.getSortRecipe(sortBy)
-      sortByRecipe = {
-        ...sortByRecipe
+      if (Object.keys(optionMatchClause).length > 0) {
+        aggregateClause.push({ $match: optionMatchClause })
       }
-
-      aggregateClause.push({ $sort: sortByRecipe })
 
       aggregateClause.push({
         $group: {
@@ -94,6 +88,13 @@ export default {
           entries: { $push: '$items' }
         }
       })
+
+      let sortByRecipe = sortHelper.getSortRecipe(sortBy)
+      sortByRecipe = {
+        ...sortByRecipe
+      }
+
+      aggregateClause.push({ $sort: sortByRecipe })
 
       aggregateClause.push({
         $project: {

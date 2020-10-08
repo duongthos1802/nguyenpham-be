@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 import timestamp from 'mongoose-timestamp'
 // constants
-import { CATEGORY_STATUS, CATEGORY_TYPE } from '../constants/enum'
+import { CATEGORY_STATUS, CATEGORY_OPTION } from '../constants/enum'
 
 const Category = new Schema(
   {
@@ -29,10 +29,6 @@ const Category = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },
-    type: {
-      type: String,
-      enum: Object.values(CATEGORY_TYPE)
-    },
     status: {
       type: String,
       enum: Object.values(CATEGORY_STATUS)
@@ -55,6 +51,10 @@ const Category = new Schema(
     },
     banner: {
       type: String
+    },
+    option: {
+      type: String,
+      enum: Object.values(CATEGORY_OPTION)
     }
   },
   { collection: 'categories' }

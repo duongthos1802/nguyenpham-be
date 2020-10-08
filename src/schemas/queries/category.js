@@ -17,7 +17,7 @@ import {
   CATEGORY_NAME,
   PRODUCT_IN_CATEGORY_FEATURE_COUNT
 } from '../../constants'
-import { PRODUCT_STATUS } from '../../constants/enum'
+import { CATEGORY_OPTION, PRODUCT_STATUS } from '../../constants/enum'
 // extensions
 import { pageHelper, sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
@@ -152,6 +152,34 @@ export default {
         items: []
       }
 
+      if (where) {
+        const {
+          keyword,
+          status,
+          option
+        } = where
+        //search keyword
+        if (keyword && keyword !== '') {
+          optionMatchClause.name = stringHelper.regexMongooseKeyword(keyword)
+        }
+        if (status && status !== '') {
+          optionMatchClause.status = stringHelper.regexMongooseKeyword(status)
+        }
+        if (option) {
+          if (option === CATEGORY_OPTION.RECIPE) {
+            optionMatchClause.option = CATEGORY_OPTION.RECIPE
+          }
+          if (option === CATEGORY_OPTION.PRODUCT) {
+            optionMatchClause.option = CATEGORY_OPTION.PRODUCT
+          }
+        }
+      }
+
+      if (Object.keys(optionMatchClause).length > 0) {
+        aggregateClause.push({ $match: optionMatchClause })
+      }
+
+
       //group items
       aggregateClause.push({
         $group: {
@@ -160,21 +188,6 @@ export default {
         }
       })
 
-      if (where) {
-        const {
-          keyword,
-          status
-        } = where
-        //search keyword
-        if (keyword && keyword !== '') {
-          optionMatchClause.name = stringHelper.regexMongooseKeyword(keyword)
-          aggregateClause.push({ $match: optionMatchClause })
-        }
-        if (status && status !== '') {
-          optionMatchClause.status = stringHelper.regexMongooseKeyword(status)
-          aggregateClause.push({ $match: optionMatchClause })
-        }
-      }
 
       let sortByCategory = sortHelper.getSortCategory(sortBy)
       sortByCategory = {

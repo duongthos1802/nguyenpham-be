@@ -28,6 +28,18 @@ const Blog = new Schema(
     updatedBy: {
       type: String
     },
+    images: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+      }
+    ],
+    pictures: {
+      type: [String]
+    },
+    picturesThumbnails: {
+      type: [String]
+    },
     status: {
       type: String,
       enum: Object.values(BLOG_STATUS)
@@ -40,6 +52,18 @@ const Blog = new Schema(
     },
     metaKeyword: {
       type: String
+    },
+    images: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+      }
+    ],
+    pictures: {
+      type: [String]
+    },
+    picturesThumbnails: {
+      type: [String]
     },
     viewCount: {
       type: Number,

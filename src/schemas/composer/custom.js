@@ -6,6 +6,8 @@ import ProductTC from './product';
 import HtmlBlockGroupTC from './htmlBlockGroup';
 import RecipeTC from './recipe';
 import CategoryTC from './category';
+import BlogTC from './blog';
+import VideoTC from './video';
 
 export const UserPermissonTC = schemaComposer.createObjectTC({
   name: "UserPermisson",
@@ -51,7 +53,7 @@ export const SearchProductTC = schemaComposer.createObjectTC({
     items: [ProductTC],
     total: "Int",
   },
-});
+})
 
 export const SearchRecipeTC = schemaComposer.createObjectTC({
   name: "SearchRecipe",
@@ -59,7 +61,7 @@ export const SearchRecipeTC = schemaComposer.createObjectTC({
     items: [RecipeTC],
     total: "Int",
   },
-});
+})
 
 export const SearchCategoryTC = schemaComposer.createObjectTC({
   name: "SearchCategory",
@@ -69,11 +71,27 @@ export const SearchCategoryTC = schemaComposer.createObjectTC({
   },
 });
 
-
 export const RecipeCustomTC = schemaComposer.createObjectTC({
   name: "RecipeCustom",
   fields: {
     category: CategoryTC,
     categories: [CategoryTC],
   },
-});
+})
+
+
+export const SearchBlogTC = schemaComposer.createObjectTC({
+  name: "SearchBlog",
+  fields: {
+    items: [BlogTC],
+    total: "Int",
+  },
+})
+
+export const SearchVideoTC = schemaComposer.createObjectTC({
+  name: "SearchVideo",
+  fields: {
+    items: [VideoTC],
+    total: "Int",
+  },
+})
