@@ -9,14 +9,11 @@ import {
   RESOLVER_FIND_BY_ID,
   RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
-  RESOLVER_COUNT,
-  RESOLVER_PRODUCT_FIND_MANY,
-  RESOLVER_FIND_ONE, RESOLVER_PRODUCT_COUNT
+  RESOLVER_PRODUCT_COUNT,
+  RESOLVER_FIND_ONE
 } from '../../constants/resolver'
-import { PRODUCT_STATUS } from '../../constants/enum'
 // extensions
-import { stringHelper, dateTimeHelper } from '../../extensions'
-import { FORMAT_DATE_EN, EUROPE_TIMEZONE } from '../../extensions/dateTime'
+import { stringHelper } from '../../extensions'
 import { pageHelper, sortHelper } from '../../models/extensions'
 
 const ProductTC = composer.ProductTC
@@ -28,7 +25,7 @@ export default {
   productsCount: ProductTC.getResolver(RESOLVER_PRODUCT_COUNT),
   productsPagination: ProductTC.getResolver(RESOLVER_PAGINATION),
   trendingItems: {
-    type: composer.CategoryTC,
+    type: composer.TrendingTC,
     resolve: async (_, args, context, info) => {
       // query
       try {
@@ -48,19 +45,33 @@ export default {
           }
         })
 
-        // let cateParent = null
-        // if (configCategory && configCategory.parentId) {
-        //   cateParent = await composer.CategoryTC.getResolver(
-        //     RESOLVER_FIND_BY_ID
-        //   ).resolve({
-        //     args: {
-        //       _id: configCategory.parentId
-        //     }
-        //   })
-        // }
+        let cateParent = null
+        let isParent = false
 
+        while (!isParent) {
+          if (configCategory && configCategory.parentId && configCategory.parentId._id) {
+            const category = await composer.CategoryTC.getResolver(
+              RESOLVER_FIND_BY_ID
+            ).resolve({
+              args: {
+                _id: configCategory.parentId
+              }
+            })
 
-        return configCategory
+            if (category && !category.parentId && !category.parentId._id) {
+              isParent = true
+              cateParent = category
+            }
+          } else {
+            isParent = true
+            cateParent = configCategory
+          }
+        }
+
+        return {
+          category: configCategory,
+          option: cateParent
+        }
 
       } catch (error) {
         console.log('error...', error);
@@ -157,6 +168,122 @@ export default {
       }
 
       return searchProduct
+    }
+  },
+
+  // get product level 1
+  searchProductsBySlug: {
+    type: composer.ProductCustomTC,
+    args: { where: 'JSON' },
+    resolve: async (_, { where }, context, info) => {
+      try {
+        const { slug } = where
+        let category = null
+        let categories = []
+        let products = []
+
+        category = await composer.CategoryTC.getResolver(
+          RESOLVER_FIND_ONE
+        ).resolve({
+          args: {
+            filter: {
+              slug: slug,
+              status: "Published"
+            }
+          }
+        })
+
+        if (category && category._id) {
+          products = await ProductTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                status: "Published"
+              }
+            }
+          })
+
+          categories = await composer.CategoryTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                parentId: category._id,
+                status: "Published"
+              }
+            }
+          })
+        }
+
+        return {
+          category,
+          categories,
+          products
+        }
+
+      } catch (error) {
+
+      }
+    }
+  },
+
+
+  // get Product > level 1
+  searchProductsBySlugId: {
+    type: composer.ProductCustomTC,
+    args: { where: 'JSON' },
+    resolve: async (_, { where }, context, info) => {
+      try {
+        const { slug, _id } = where
+        let category = null
+        let categories = []
+
+        if (_id) {
+          category = await composer.CategoryTC.getResolver(
+            RESOLVER_FIND_BY_ID
+          ).resolve({
+            args: {
+              _id: _id,
+              status: "Published"
+            }
+          })
+        }
+
+        if (slug) {
+          const categoriesProduct = await composer.CategoryTC.getResolver(
+            RESOLVER_FIND_ONE
+          ).resolve({
+            args: {
+              filter: {
+                slug: slug,
+                status: "Published"
+              }
+            }
+          })
+
+          if (categoriesProduct && categoriesProduct._id) {
+            categories = await composer.CategoryTC.getResolver(
+              RESOLVER_FIND_MANY
+            ).resolve({
+              args: {
+                filter: {
+                  parentId: categoriesProduct._id,
+                  status: "Published"
+                }
+              }
+            })
+          }
+        }
+
+        return {
+          category,
+          categories
+        }
+
+      } catch (error) {
+        console.log("error");
+      }
     }
   },
 }
