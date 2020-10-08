@@ -48,6 +48,18 @@ export default {
           }
         })
 
+        // let cateParent = null
+        // if (configCategory && configCategory.parentId) {
+        //   cateParent = await composer.CategoryTC.getResolver(
+        //     RESOLVER_FIND_BY_ID
+        //   ).resolve({
+        //     args: {
+        //       _id: configCategory.parentId
+        //     }
+        //   })
+        // }
+
+
         return configCategory
 
       } catch (error) {
@@ -110,9 +122,9 @@ export default {
       }
 
       let sortByProduct = sortHelper.getSortProduct(sortBy)
-        sortByProduct = {
-          ...sortByProduct
-        }
+      sortByProduct = {
+        ...sortByProduct
+      }
 
       aggregateClause.push({ $sort: sortByProduct })
 

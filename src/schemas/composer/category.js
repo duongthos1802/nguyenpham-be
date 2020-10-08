@@ -6,10 +6,11 @@ import models from '../../models'
 import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
-import { RESOLVER_PRODUCT_FIND_MANY, RESOLVER_FIND_BY_ID, RESOLVER_CATEGORY_FIND_MANY, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_CATEGORY_COUNT } from '../../constants/resolver'
+import { RESOLVER_PRODUCT_FIND_MANY, RESOLVER_FIND_BY_ID, RESOLVER_CATEGORY_FIND_MANY, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_CATEGORY_COUNT, RESOLVER_RECIPE_FIND_MANY } from '../../constants/resolver'
 import { ProductTC } from './product'
 // composer
 import composer from '../composer'
+import RecipeTC from './recipe'
 
 export const CategoryTC = composeWithDataLoader(
   composeWithMongoose(models.Category, customizationOptions),
@@ -26,13 +27,31 @@ CategoryTC.addRelation('parentId', {
   projection: { category: 1 }
 })
 
-
 CategoryTC.addFields({
-  product: {
+  products: {
     type: [ProductTC],
     args: ProductTC.getResolver(RESOLVER_PRODUCT_FIND_MANY).getArgs(),
     resolve: (source, args, context, info) => {
       return ProductTC.getResolver(RESOLVER_PRODUCT_FIND_MANY).resolve({
+        source,
+        args,
+        context,
+        info,
+        rawQuery: {
+          category: source._id
+        }
+      })
+    }
+  }
+})
+
+
+CategoryTC.addFields({
+  recipes: {
+    type: [RecipeTC],
+    args: RecipeTC.getResolver(RESOLVER_RECIPE_FIND_MANY).getArgs(),
+    resolve: (source, args, context, info) => {
+      return RecipeTC.getResolver(RESOLVER_RECIPE_FIND_MANY).resolve({
         source,
         args,
         context,

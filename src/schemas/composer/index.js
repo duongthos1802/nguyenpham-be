@@ -23,7 +23,8 @@ import {
   EventHomeTC,
   SearchProductTC,
   SearchRecipeTC,
-  SearchCategoryTC
+  SearchCategoryTC,
+  RecipeCustomTC
 } from './custom'
 
 export default {
@@ -49,5 +50,6 @@ export default {
   EventHomeTC,
   SearchProductTC,
   SearchRecipeTC,
-  SearchCategoryTC
+  SearchCategoryTC,
+  RecipeCustomTC
 }

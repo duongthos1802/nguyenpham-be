@@ -9,7 +9,8 @@ import {
   RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
   RESOLVER_COUNT,
-  RESOLVER_PRODUCT_FIND_MANY
+  RESOLVER_PRODUCT_FIND_MANY,
+  RESOLVER_FIND_ONE
 } from '../../constants/resolver'
 import {
   CATEGORY_FEATURE_COUNT,
@@ -133,6 +134,7 @@ export default {
       }
     }
   },
+
   searchCategories: {
     type: composer.SearchCategoryTC,
     args: {
@@ -149,7 +151,7 @@ export default {
         total: 0,
         items: []
       }
-      
+
       //group items
       aggregateClause.push({
         $group: {
@@ -175,9 +177,9 @@ export default {
       }
 
       let sortByCategory = sortHelper.getSortCategory(sortBy)
-        sortByCategory = {
-          ...sortByCategory
-        }
+      sortByCategory = {
+        ...sortByCategory
+      }
 
       aggregateClause.push({ $sort: sortByCategory })
 
@@ -211,4 +213,138 @@ export default {
       return searchCategory
     }
   },
+
+  // cate recipe level 1
+  searchCategoriesBySlug: {
+    type: composer.RecipeCustomTC,
+    args: { where: 'JSON' },
+    resolve: async (_, { where }, context, info) => {
+      try {
+        const { slug, _id } = where
+        let category = null
+        let categories = []
+
+        category = await CategoryTC.getResolver(
+          RESOLVER_FIND_ONE
+        ).resolve({
+          args: {
+            filter: {
+              slug: slug,
+              status: "Published"
+            }
+          }
+        })
+
+        if (category && category._id) {
+          categories = await CategoryTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                parentId: category._id,
+                status: "Published"
+              }
+            }
+          })
+        }
+
+        return {
+          category,
+          categories
+        }
+
+      } catch (error) {
+
+      }
+    }
+  },
+
+  // cate recipe level 2
+  searchCategoriesRecipe: {
+    type: composer.RecipeCustomTC,
+    args: { where: 'JSON' },
+    resolve: async (_, { where }, context, info) => {
+      try {
+        const { slug, _id } = where
+        let category = null
+        let categories = []
+
+        if (_id) {
+          category = await CategoryTC.getResolver(
+            RESOLVER_FIND_BY_ID
+          ).resolve({
+            args: {
+              _id: _id,
+              status: "Published"
+            }
+          })
+        }
+
+
+        if (slug) {
+          const categoriesRecipe = await CategoryTC.getResolver(
+            RESOLVER_FIND_ONE
+          ).resolve({
+            args: {
+              filter: {
+                slug: slug,
+                status: "Published"
+              }
+            }
+          })
+
+          if (categoriesRecipe && categoriesRecipe._id) {
+            categories = await CategoryTC.getResolver(
+              RESOLVER_FIND_MANY
+            ).resolve({
+              args: {
+                filter: {
+                  parentId: categoriesRecipe._id,
+                  status: "Published"
+                }
+              }
+            })
+          }
+        }
+
+        return {
+          category,
+          categories
+        }
+
+      } catch (error) {
+
+      }
+    }
+  },
+
+  searchChildrenCategories: {
+    type: [composer.CategoryTC],
+    args: {
+      where: 'JSON',
+      sortBy: 'String'
+    },
+    resolve: async (_, { where, sortBy }, context, info) => {
+
+      try {
+        const { parentId } = where
+        if (parentId) {
+          return await CategoryTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                parentId: parentId
+              }
+            }
+          })
+        }
+        return []
+
+      } catch (error) {
+        console.log('error....', error);
+      }
+
+    }
+  }
 }

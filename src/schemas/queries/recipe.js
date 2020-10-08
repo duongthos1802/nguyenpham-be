@@ -8,7 +8,7 @@ import {
   RESOLVER_FIND_BY_ID,
   RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
-  RESOLVER_COUNT, 
+  RESOLVER_COUNT,
   RESOLVER_RECIPE_COUNT
 } from '../../constants/resolver'
 import { sortHelper } from '../../models/extensions'
@@ -81,9 +81,9 @@ export default {
       }
 
       let sortByRecipe = sortHelper.getSortRecipe(sortBy)
-        sortByRecipe = {
-          ...sortByRecipe
-        }
+      sortByRecipe = {
+        ...sortByRecipe
+      }
 
       aggregateClause.push({ $sort: sortByRecipe })
 

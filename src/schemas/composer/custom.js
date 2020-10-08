@@ -68,3 +68,12 @@ export const SearchCategoryTC = schemaComposer.createObjectTC({
     total: "Int",
   },
 });
+
+
+export const RecipeCustomTC = schemaComposer.createObjectTC({
+  name: "RecipeCustom",
+  fields: {
+    category: CategoryTC,
+    categories: [CategoryTC],
+  },
+});

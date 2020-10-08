@@ -3,6 +3,15 @@ export const CATEGORY_STATUS = {
   SUSPENDED: 'Suspended'
 }
 
+export const CATEGORY_TYPE = {
+  PRODUCT: 'Product',
+  RECIPE: 'Recipe',
+  VIDEO: 'Video',
+  SERVICE: 'Service',
+  BLOG: 'Blog'
+}
+
+
 export const RECIPE_STATUS = {
   PUBLISHED: 'Published',
   SUSPENDED: 'Suspended',
