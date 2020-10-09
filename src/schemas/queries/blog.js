@@ -7,7 +7,8 @@ import {
   RESOLVER_FIND_BY_ID,
   RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
-  RESOLVER_COUNT
+  RESOLVER_COUNT,
+  RESOLVER_FIND_ONE
 } from '../../constants/resolver'
 import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
@@ -36,7 +37,7 @@ export default {
         total: 0,
         items: []
       }
-      
+
 
       if (where) {
         const {
@@ -65,11 +66,11 @@ export default {
         }
       })
 
-      
+
       let sortByBlog = sortHelper.getSortBlog(sortBy)
-        sortByBlog = {
-          ...sortByBlog
-        }
+      sortByBlog = {
+        ...sortByBlog
+      }
 
       aggregateClause.push({ $sort: sortByBlog })
 
@@ -103,4 +104,65 @@ export default {
       return searchBlog
     }
   },
+
+  categoriesBlogFeatures: {
+    type: composer.SearchBlogFeaturesTC,
+    args: {
+      where: 'JSON'
+    },
+    resolve: async (_, { where }, context, info) => {
+      try {
+
+        const { _id, slug } = where
+
+        const searchBlogFeatures = {
+          blogFeatures: [],
+          categoryBlog: []
+        }
+
+        if (slug) {
+          const blogParent = await composer.CategoryTC.getResolver(
+            RESOLVER_FIND_ONE
+          ).resolve({
+            args: {
+              filter: {
+                slug: slug,
+                status: "Published"
+              }
+            }
+          })
+          if (blogParent && blogParent._id) {
+            searchBlogFeatures.categoryBlog = await composer.CategoryTC.getResolver(
+              RESOLVER_FIND_MANY
+            ).resolve({
+              args: {
+                filter: {
+                  parentId: blogParent._id,
+                  status: "Published"
+                }
+              }
+            })
+          }
+        }
+
+        if (_id) {
+          searchBlogFeatures.blogFeatures = await BlogTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                categoryId: _id,
+                status: "Published"
+              }
+            }
+          })
+        }
+
+        return searchBlogFeatures
+
+      } catch (error) {
+
+      }
+    }
+  }
 }

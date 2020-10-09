@@ -228,7 +228,6 @@ export default {
     }
   },
 
-
   // get Product > level 1
   searchProductsBySlugId: {
     type: composer.ProductCustomTC,

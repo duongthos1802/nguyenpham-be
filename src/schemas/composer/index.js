@@ -28,7 +28,8 @@ import {
   SearchBlogTC,
   SearchVideoTC,
   TrendingTC,
-  ProductCustomTC
+  ProductCustomTC,
+  SearchBlogFeaturesTC
 } from './custom'
 
 export default {
@@ -59,5 +60,6 @@ export default {
   SearchBlogTC,
   SearchVideoTC,
   TrendingTC,
-  ProductCustomTC
+  ProductCustomTC,
+  SearchBlogFeaturesTC
 }
