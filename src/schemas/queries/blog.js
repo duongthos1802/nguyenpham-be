@@ -12,6 +12,8 @@ import {
 } from '../../constants/resolver'
 import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
+import { isBuffer } from 'lodash'
+import CategoryTC from '../composer/category'
 
 const BlogTC = composer.BlogTC
 
@@ -157,8 +159,80 @@ export default {
             }
           })
         }
-
         return searchBlogFeatures
+
+      } catch (error) {
+
+      }
+    }
+  },
+
+  searchBlogBySlugId: {
+    type: composer.BlogCustomTC,
+    args: {
+      where: 'JSON'
+    },
+    resolve: async (_, { where }, context, info) => {
+      try {
+
+        let searchBlog = {
+          category: null,
+          blogs: []
+        }
+
+        const { _id, slug } = where
+
+        if (slug) {
+          // categoryParent = await composer.CategoryTC.getResolver(
+          //   RESOLVER_FIND_ONE
+          // ).resolve({
+          //   args: {
+          //     filter: {
+          //       slug: slug,
+          //       status: "Published"
+          //     }
+          //   }
+          // })
+
+          // if(categoryParent && categoryParent._id) {
+          //   categoryParent = await composer.CategoryTC.getResolver(
+          //     RESOLVER_FIND_BY_ID
+          //   ).resolve({
+          //     args: {
+          //       filter: {
+          //         : slug,
+          //         status: "Published"
+          //       }
+          //     }
+          //   })
+          // }
+        }
+
+        if (_id) {
+          searchBlog.blogs = await BlogTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                categoryId: _id,
+                status: "Published"
+              }
+            }
+          })
+
+          searchBlog.category = await CategoryTC.getResolver(
+            RESOLVER_FIND_ONE
+          ).resolve({
+            args: {
+              filter: {
+                _id: _id,
+                status: "Published"
+              }
+            }
+          })
+        }
+
+        return searchBlog
 
       } catch (error) {
 
