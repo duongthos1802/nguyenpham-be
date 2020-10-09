@@ -42,9 +42,10 @@ export const RESOLVER_BANNER_GROUP_COUNT = 'bannerGroupCount'
 export const RESOLVER_PAGE_FIND_MANY = 'pageFindMany'
 export const RESOLVER_PAGE_COUNT = 'pageCount'
 
-// CUSTOM HTML BLOCK
-// export const RESOLVER_HTML_BLOCK_FIND_MANY = 'htmlBlockFindMany'
-// export const RESOLVER_HTML_BLOCK_COUNT = 'htmlBlockCount'
+// CUSTOM BLOG
+export const RESOLVER_BLOG_FIND_MANY = 'blogFindMany'
+export const RESOLVER_BLOG_COUNT = 'blogCount'
+
 
 
 export default {
@@ -85,7 +86,7 @@ export default {
   RESOLVER_PAGE_FIND_MANY,
   RESOLVER_PAGE_COUNT,
 
-  // RESOLVER_HTML_BLOCK_FIND_MANY,
-  // RESOLVER_HTML_BLOCK_COUNT
+  RESOLVER_BLOG_FIND_MANY,
+  RESOLVER_BLOG_COUNT
 
 }

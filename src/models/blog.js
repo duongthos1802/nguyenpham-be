@@ -16,6 +16,10 @@ const Blog = new Schema(
     description: {
       type: String
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category'
+    },
     slug: {
       type: String
     },

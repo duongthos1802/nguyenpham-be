@@ -90,6 +90,15 @@ export const ProductCustomTC = schemaComposer.createObjectTC({
   },
 })
 
+export const BlogCustomTC = schemaComposer.createObjectTC({
+  name: "BlogCustom",
+  fields: {
+    category: CategoryTC,
+    blogs: [BlogTC],
+    total: 'Int'
+  },
+})
+
 export const SearchBlogTC = schemaComposer.createObjectTC({
   name: "SearchBlog",
   fields: {
