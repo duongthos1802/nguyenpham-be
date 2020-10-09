@@ -76,6 +76,8 @@ export const RecipeCustomTC = schemaComposer.createObjectTC({
   fields: {
     category: CategoryTC,
     categories: [CategoryTC],
+    recipes: [RecipeTC],
+    total: 'Int'
   },
 })
 

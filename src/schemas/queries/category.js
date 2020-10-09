@@ -10,7 +10,8 @@ import {
   RESOLVER_CONNECTION,
   RESOLVER_COUNT,
   RESOLVER_PRODUCT_FIND_MANY,
-  RESOLVER_FIND_ONE
+  RESOLVER_FIND_ONE,
+  RESOLVER_RECIPE_COUNT
 } from '../../constants/resolver'
 import {
   CATEGORY_FEATURE_COUNT,
@@ -233,9 +234,15 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { slug, _id } = where
+        const { 
+          slug,
+          limit,
+          skip
+        } = where
         let category = null
         let categories = []
+        let recipes = []
+        let total = 0
 
         category = await CategoryTC.getResolver(
           RESOLVER_FIND_ONE
@@ -259,15 +266,47 @@ export default {
               }
             }
           })
+          await Promise.all(
+            categories.map(async (category) => {
+              let listProducts = await composer.RecipeTC.getResolver(
+                RESOLVER_FIND_MANY
+              ).resolve({
+                args: {
+                  filter: {
+                    category: category._id
+                  },
+                  limit: limit || 9,
+                  skip: skip || 0
+                }
+              })
+
+              listProducts.map(item => recipes.push(item))
+
+              let initTotalProduct = await composer.RecipeTC.getResolver(
+                RESOLVER_COUNT
+              ).resolve({
+                args: {
+                  filter: {
+                    category: category._id
+                  }
+                }
+              })
+
+              total += initTotalProduct
+            })
+          )
         }
 
         return {
           category,
-          categories
+          categories,
+          recipes,
+          total
         }
 
       } catch (error) {
-
+        console.log('eror', error)
+        throw new Error(error)
       }
     }
   },
@@ -278,9 +317,16 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { slug, _id } = where
+        const { 
+          slug, 
+          _id ,
+          limit, 
+          skip
+        } = where
         let category = null
         let categories = []
+        let recipes = []
+        let total = 0
 
         if (_id) {
           category = await CategoryTC.getResolver(
@@ -289,6 +335,26 @@ export default {
             args: {
               _id: _id,
               status: "Published"
+            }
+          })
+          recipes = await composer.RecipeTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                category: _id
+              },
+              limit: limit || 10,
+              skip: skip || 0
+            }
+          })
+          total = await composer.RecipeTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter:{
+                category: _id
+              }
             }
           })
         }
@@ -322,7 +388,9 @@ export default {
 
         return {
           category,
-          categories
+          categories,
+          recipes,
+          total
         }
 
       } catch (error) {
