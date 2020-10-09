@@ -10,7 +10,7 @@ import {
   RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
   RESOLVER_PRODUCT_COUNT,
-  RESOLVER_FIND_ONE
+  RESOLVER_FIND_ONE, RESOLVER_COUNT
 } from '../../constants/resolver'
 // extensions
 import { stringHelper } from '../../extensions'
@@ -74,7 +74,6 @@ export default {
         }
 
       } catch (error) {
-        console.log('error...', error);
         throw new Error(error)
       }
     }
@@ -177,10 +176,15 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { slug } = where
+        const { 
+          slug,
+          limit,
+          skip
+        } = where
         let category = null
         let categories = []
         let products = []
+        let total = 0
 
         category = await composer.CategoryTC.getResolver(
           RESOLVER_FIND_ONE
@@ -194,16 +198,6 @@ export default {
         })
 
         if (category && category._id) {
-          products = await ProductTC.getResolver(
-            RESOLVER_FIND_MANY
-          ).resolve({
-            args: {
-              filter: {
-                status: "Published"
-              }
-            }
-          })
-
           categories = await composer.CategoryTC.getResolver(
             RESOLVER_FIND_MANY
           ).resolve({
@@ -216,10 +210,33 @@ export default {
           })
         }
 
+        products = await ProductTC.getResolver(
+          RESOLVER_FIND_MANY
+        ).resolve({
+          args: {
+            filter: {
+              status: "Published"
+            },
+            limit: limit || 9,
+            skip: skip || 0
+          }
+        })
+
+        total = await ProductTC.getResolver(
+          RESOLVER_COUNT
+        ).resolve({
+          args: {
+            filter: {
+              status: "Published"
+            }
+          }
+        })
+
         return {
           category,
           categories,
-          products
+          products,
+          total
         }
 
       } catch (error) {
@@ -234,9 +251,16 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { slug, _id } = where
+        const { 
+          slug, 
+          _id,
+          limit,
+          skip
+        } = where
         let category = null
         let categories = []
+        let products = []
+        let total = 0
 
         if (_id) {
           category = await composer.CategoryTC.getResolver(
@@ -245,6 +269,26 @@ export default {
             args: {
               _id: _id,
               status: "Published"
+            }
+          })
+          products = await composer.ProductTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                category: _id
+              },
+              limit: limit || 10,
+              skip: skip || 0
+            }
+          })
+          total = await composer.ProductTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter:{
+                category: _id
+              }
             }
           })
         }
@@ -277,11 +321,13 @@ export default {
 
         return {
           category,
-          categories
+          categories,
+          products,
+          total
         }
 
       } catch (error) {
-        console.log("error");
+        throw new Error(error)
       }
     }
   },

@@ -266,35 +266,29 @@ export default {
               }
             }
           })
-          await Promise.all(
-            categories.map(async (category) => {
-              let listProducts = await composer.RecipeTC.getResolver(
-                RESOLVER_FIND_MANY
-              ).resolve({
-                args: {
-                  filter: {
-                    category: category._id
-                  },
-                  limit: limit || 9,
-                  skip: skip || 0
-                }
-              })
+          
+          recipes = await composer.RecipeTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                status: "Published"
+              },
+              limit: limit || 9,
+              skip: skip || 0
+            }
+          })
 
-              listProducts.map(item => recipes.push(item))
+          total = await composer.RecipeTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter: {
+                status: "Published"
+              }
+            }
+          })
 
-              let initTotalProduct = await composer.RecipeTC.getResolver(
-                RESOLVER_COUNT
-              ).resolve({
-                args: {
-                  filter: {
-                    category: category._id
-                  }
-                }
-              })
-
-              total += initTotalProduct
-            })
-          )
         }
 
         return {
@@ -305,7 +299,6 @@ export default {
         }
 
       } catch (error) {
-        console.log('eror', error)
         throw new Error(error)
       }
     }
@@ -423,7 +416,7 @@ export default {
         return []
 
       } catch (error) {
-        console.log('error....', error);
+        throw new Error(error)
       }
 
     }

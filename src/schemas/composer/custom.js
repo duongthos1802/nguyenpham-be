@@ -86,7 +86,8 @@ export const ProductCustomTC = schemaComposer.createObjectTC({
   fields: {
     category: CategoryTC,
     categories: [CategoryTC],
-    products: [ProductTC]
+    products: [ProductTC],
+    total: 'Int'
   },
 })
 
