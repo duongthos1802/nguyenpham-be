@@ -175,52 +175,42 @@ export default {
     resolve: async (_, { where }, context, info) => {
       try {
 
-        let searchBlog = {
-          category: null,
-          blogs: []
-        }
+        let category = null
+        let blogs = []
+        let total = 0
 
-        const { _id, slug } = where
-
-        if (slug) {
-          // categoryParent = await composer.CategoryTC.getResolver(
-          //   RESOLVER_FIND_ONE
-          // ).resolve({
-          //   args: {
-          //     filter: {
-          //       slug: slug,
-          //       status: "Published"
-          //     }
-          //   }
-          // })
-
-          // if(categoryParent && categoryParent._id) {
-          //   categoryParent = await composer.CategoryTC.getResolver(
-          //     RESOLVER_FIND_BY_ID
-          //   ).resolve({
-          //     args: {
-          //       filter: {
-          //         : slug,
-          //         status: "Published"
-          //       }
-          //     }
-          //   })
-          // }
-        }
+        const { 
+          _id,
+          slug,
+          limit,
+          skip 
+        } = where
 
         if (_id) {
-          searchBlog.blogs = await BlogTC.getResolver(
+          blogs = await BlogTC.getResolver(
             RESOLVER_FIND_MANY
           ).resolve({
             args: {
               filter: {
-                categoryId: _id,
+                category: _id,
                 status: "Published"
+              },
+              limit: limit || 9,
+              skip: skip || 0
+            }
+          })
+
+          total = await BlogTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter:{
+                category: _id
               }
             }
           })
 
-          searchBlog.category = await CategoryTC.getResolver(
+          category = await CategoryTC.getResolver(
             RESOLVER_FIND_ONE
           ).resolve({
             args: {
@@ -231,8 +221,46 @@ export default {
             }
           })
         }
+        if (slug) {
+          blogs = await BlogTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                status: "Published"
+              },
+              limit: limit || 9,
+              skip: skip || 0
+            }
+          })
 
-        return searchBlog
+          total = await BlogTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter:{
+                status: "Published"
+              }
+            }
+          })
+
+          category = await CategoryTC.getResolver(
+            RESOLVER_FIND_ONE
+          ).resolve({
+            args: {
+              filter: {
+                slug: slug,
+                status: "Published"
+              }
+            }
+          })
+        }
+
+        return {
+          category,
+          blogs,
+          total
+        }
 
       } catch (error) {
 

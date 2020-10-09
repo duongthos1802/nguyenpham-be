@@ -278,7 +278,7 @@ export default {
               filter: {
                 category: _id
               },
-              limit: limit || 10,
+              limit: limit || 9,
               skip: skip || 0
             }
           })

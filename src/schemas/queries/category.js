@@ -173,6 +173,15 @@ export default {
           if (option === CATEGORY_OPTION.PRODUCT) {
             optionMatchClause.option = CATEGORY_OPTION.PRODUCT
           }
+          if (option === CATEGORY_OPTION.BLOG) {
+            optionMatchClause.option = CATEGORY_OPTION.BLOG
+          }
+          if (option === CATEGORY_OPTION.VIDEO) {
+            optionMatchClause.option = CATEGORY_OPTION.VIDEO
+          }
+          if (option === CATEGORY_OPTION.SERVICE) {
+            optionMatchClause.option = CATEGORY_OPTION.SERVICE
+          }
         }
       }
 
