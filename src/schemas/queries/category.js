@@ -234,9 +234,15 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { slug, _id } = where
+        const { 
+          slug,
+          limit,
+          skip
+        } = where
         let category = null
         let categories = []
+        let recipes = []
+        let total = 0
 
         category = await CategoryTC.getResolver(
           RESOLVER_FIND_ONE
@@ -260,15 +266,47 @@ export default {
               }
             }
           })
+          await Promise.all(
+            categories.map(async (category) => {
+              let listProducts = await composer.RecipeTC.getResolver(
+                RESOLVER_FIND_MANY
+              ).resolve({
+                args: {
+                  filter: {
+                    category: category._id
+                  },
+                  limit: limit || 9,
+                  skip: skip || 0
+                }
+              })
+
+              listProducts.map(item => recipes.push(item))
+
+              let initTotalProduct = await composer.RecipeTC.getResolver(
+                RESOLVER_COUNT
+              ).resolve({
+                args: {
+                  filter: {
+                    category: category._id
+                  }
+                }
+              })
+
+              total += initTotalProduct
+            })
+          )
         }
 
         return {
           category,
-          categories
+          categories,
+          recipes,
+          total
         }
 
       } catch (error) {
-
+        console.log('eror', error)
+        throw new Error(error)
       }
     }
   },
