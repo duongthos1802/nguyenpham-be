@@ -10,7 +10,8 @@ import {
   RESOLVER_CONNECTION,
   RESOLVER_COUNT,
   RESOLVER_PRODUCT_FIND_MANY,
-  RESOLVER_FIND_ONE
+  RESOLVER_FIND_ONE,
+  RESOLVER_RECIPE_COUNT
 } from '../../constants/resolver'
 import {
   CATEGORY_FEATURE_COUNT,
@@ -278,9 +279,16 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { slug, _id } = where
+        const { 
+          slug, 
+          _id ,
+          limit, 
+          skip
+        } = where
         let category = null
         let categories = []
+        let recipes = []
+        let total = 0
 
         if (_id) {
           category = await CategoryTC.getResolver(
@@ -289,6 +297,26 @@ export default {
             args: {
               _id: _id,
               status: "Published"
+            }
+          })
+          recipes = await composer.RecipeTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                category: _id
+              },
+              limit: limit || 10,
+              skip: skip || 0
+            }
+          })
+          total = await composer.RecipeTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter:{
+                category: _id
+              }
             }
           })
         }
@@ -322,7 +350,9 @@ export default {
 
         return {
           category,
-          categories
+          categories,
+          recipes,
+          total
         }
 
       } catch (error) {
