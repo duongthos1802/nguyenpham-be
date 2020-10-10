@@ -47,9 +47,8 @@ export default {
 
         let cateParent = null
         let isParent = false
-
         while (!isParent) {
-          if (configCategory && configCategory.parentId && configCategory.parentId._id) {
+          if (configCategory && configCategory.parentId) {
             const category = await composer.CategoryTC.getResolver(
               RESOLVER_FIND_BY_ID
             ).resolve({
@@ -57,8 +56,7 @@ export default {
                 _id: configCategory.parentId
               }
             })
-
-            if (category && !category.parentId && !category.parentId._id) {
+            if (category && !category.parentId) {
               isParent = true
               cateParent = category
             }
@@ -74,6 +72,7 @@ export default {
         }
 
       } catch (error) {
+        console.log('eror', error)
         throw new Error(error)
       }
     }
