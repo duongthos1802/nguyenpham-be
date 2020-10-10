@@ -18,6 +18,7 @@ import {
   CATEGORY_NAME,
   PRODUCT_IN_CATEGORY_FEATURE_COUNT
 } from '../../constants'
+import { CategoryOption } from '../composer/enum'
 import { CATEGORY_OPTION, PRODUCT_STATUS } from '../../constants/enum'
 // extensions
 import { pageHelper, sortHelper } from '../../models/extensions'
@@ -428,6 +429,35 @@ export default {
         throw new Error(error)
       }
 
+    }
+  },
+
+  serachCategoryByOption: {
+    type: CategoryTC,
+    args: {
+      option: CategoryOption,
+    },
+    resolve: async (_, { option }, context, info) => {
+      try {
+
+        const category = await CategoryTC.getResolver(
+          RESOLVER_FIND_ONE
+        ).resolve({
+          args: {
+            filter: {
+              option: option
+            }
+          }
+        })
+        if(!category) {
+          throw Error('NOT FIND ANY CATEGORY')
+        }
+
+        return category
+
+      } catch (error) {
+        throw new Error(error)
+      }
     }
   }
 }

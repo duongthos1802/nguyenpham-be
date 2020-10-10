@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 // models
 import models from '../../models'
 // composer
@@ -44,8 +45,18 @@ export default {
       if (where) {
         const {
           keyword,
-          status
+          status,
+          category
         } = where
+        if (category) {
+          //get category
+          const cat = await models.Category.findOne({
+            _id: mongoose.Types.ObjectId(category)
+          }).exec()
+          if (cat !== null) {
+            optionMatchClause.category = cat._id
+          }
+        }
         //search keyword
         if (keyword && keyword !== '') {
           optionMatchClause.name = stringHelper.regexMongooseKeyword(keyword)

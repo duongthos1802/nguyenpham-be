@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 // models
 import models from '../../models'
 // composer
