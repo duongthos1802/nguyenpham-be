@@ -47,7 +47,7 @@ CategoryTC.addFields({
 })
 
 CategoryTC.addFields({
-  products: {
+  blogs: {
     type: [BlogTC],
     args: BlogTC.getResolver(RESOLVER_BLOG_FIND_MANY).getArgs(),
     resolve: (source, args, context, info) => {

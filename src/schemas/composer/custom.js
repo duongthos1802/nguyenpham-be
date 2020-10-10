@@ -128,6 +128,6 @@ export const TrendingTC = schemaComposer.createObjectTC({
   name: "SearchTrending",
   fields: {
     category: CategoryTC,
-    option: "String",
+    option: "String"
   },
 })

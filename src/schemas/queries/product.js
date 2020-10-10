@@ -36,7 +36,6 @@ export default {
           return null
         }
 
-        // 1. get first category
         const configCategory = await composer.CategoryTC.getResolver(
           RESOLVER_FIND_BY_ID
         ).resolve({
@@ -175,7 +174,7 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { 
+        const {
           slug,
           limit,
           skip
@@ -250,8 +249,8 @@ export default {
     args: { where: 'JSON' },
     resolve: async (_, { where }, context, info) => {
       try {
-        const { 
-          slug, 
+        const {
+          slug,
           _id,
           limit,
           skip
@@ -285,7 +284,7 @@ export default {
             RESOLVER_COUNT
           ).resolve({
             args: {
-              filter:{
+              filter: {
                 category: _id
               }
             }

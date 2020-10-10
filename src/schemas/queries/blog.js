@@ -154,7 +154,8 @@ export default {
             args: {
               filter: {
                 categoryId: _id,
-                status: "Published"
+                status: "Published",
+                Limit: 5
               }
             }
           })
@@ -179,11 +180,11 @@ export default {
         let blogs = []
         let total = 0
 
-        const { 
+        const {
           _id,
           slug,
           limit,
-          skip 
+          skip
         } = where
 
         if (_id) {
@@ -204,7 +205,7 @@ export default {
             RESOLVER_COUNT
           ).resolve({
             args: {
-              filter:{
+              filter: {
                 category: _id
               }
             }
@@ -238,7 +239,7 @@ export default {
             RESOLVER_COUNT
           ).resolve({
             args: {
-              filter:{
+              filter: {
                 status: "Published"
               }
             }
