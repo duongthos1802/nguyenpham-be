@@ -25,7 +25,7 @@ export default {
   productsCount: ProductTC.getResolver(RESOLVER_PRODUCT_COUNT),
   productsPagination: ProductTC.getResolver(RESOLVER_PAGINATION),
   trendingItems: {
-    type: composer.TrendingTC,
+    type: composer.CategoryTC,
     resolve: async (_, args, context, info) => {
       // query
       try {
@@ -44,31 +44,7 @@ export default {
           }
         })
 
-        let cateParent = null
-        let isParent = false
-        while (!isParent) {
-          if (configCategory && configCategory.parentId) {
-            const category = await composer.CategoryTC.getResolver(
-              RESOLVER_FIND_BY_ID
-            ).resolve({
-              args: {
-                _id: configCategory.parentId
-              }
-            })
-            if (category && !category.parentId) {
-              isParent = true
-              cateParent = category
-            }
-          } else {
-            isParent = true
-            cateParent = configCategory
-          }
-        }
-
-        return {
-          category: configCategory,
-          option: cateParent
-        }
+        return configCategory
 
       } catch (error) {
         console.log('eror', error)
