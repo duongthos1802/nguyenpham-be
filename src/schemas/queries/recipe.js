@@ -39,14 +39,6 @@ export default {
         items: []
       }
 
-      //group items
-      aggregateClause.push({
-        $group: {
-          _id: '$_id',
-          items: { $last: '$$ROOT' }
-        }
-      })
-
       if (where) {
         const {
           keyword,
@@ -62,7 +54,6 @@ export default {
           }).exec()
           if (cat !== null) {
             optionMatchClause.category = cat._id
-            aggregateClause.push({ $match: optionMatchClause })
           }
         }
         //search keyword
@@ -83,9 +74,8 @@ export default {
 
       aggregateClause.push({
         $group: {
-          _id: null,
-          count: { $sum: 1 },
-          entries: { $push: '$items' }
+          _id: '$_id',
+          items: { $last: '$$ROOT' }
         }
       })
 
@@ -95,6 +85,14 @@ export default {
       }
 
       aggregateClause.push({ $sort: sortByRecipe })
+
+      aggregateClause.push({
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+          entries: { $push: '$items' }
+        }
+      })
 
       aggregateClause.push({
         $project: {
