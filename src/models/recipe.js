@@ -41,6 +41,9 @@ const Recipe = new Schema(
     ingredient: {
       type: String
     },
+    decorate: {
+      type: String
+    },
     method: {
       type: String
     },
