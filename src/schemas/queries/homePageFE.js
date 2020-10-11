@@ -7,6 +7,9 @@ import {
 } from '../../constants/resolver'
 // helper
 import { pageHelper } from '../../models/extensions'
+import { CATEGORY_FEATURE_COUNT, PRODUCT_IN_CATEGORY_FEATURE_COUNT, RECIPE_IN_CATEGORY_FEATURE_COUNT } from '../../constants'
+import CategoryTC from '../composer/category'
+import { PRODUCT_STATUS } from '../../constants/enum'
 
 
 export default {
@@ -92,6 +95,8 @@ export default {
         if (config) {
 
           const { configEventLeft, configEventRight } = config
+
+          console.log('config......', config);
           // 2. get event by config
           // let eventLeft = null
 
@@ -103,6 +108,8 @@ export default {
                 _id: configEventLeft.key
               }
             })
+
+            console.log('event.eventLeft.....', event.eventLeft);
           }
 
           if (configEventRight) {
@@ -114,11 +121,137 @@ export default {
               }
             })
           }
+
+
+          // console.log('event.eventLeft.....', event.eventLeft);
         }
 
         return event
 
       } catch (error) {
+        throw new Error(error)
+      }
+    }
+  },
+  categoryFeatures: {
+    type: [composer.CategoryFeatureTC],
+    args: {
+
+    },
+    resolve: async (_, args, context, info) => {
+      // query
+      try {
+        // get config home page
+        const config = await pageHelper.getConfigHomePage()
+
+        const whereClause = {}
+        if (config) {
+          const {
+            // configCategory,
+            configCategorySecond,
+            configCategoryThird,
+            configCategoryFour
+          } = config
+
+          if (configCategorySecond || configCategoryThird) {
+            let idWhereClause = []
+
+            if (configCategorySecond && configCategorySecond.key) {
+              idWhereClause.push(configCategorySecond.key)
+            }
+            if (configCategoryThird && configCategoryThird.key) {
+              idWhereClause.push(configCategoryThird.key)
+            }
+
+            if (configCategoryFour && configCategoryFour.key) {
+              idWhereClause.push(configCategoryFour.key)
+            }
+
+            whereClause._operators = {
+              _id: {
+                in: idWhereClause
+              }
+            }
+          }
+        }
+
+        // 1. get first 2 category
+        const categories = await CategoryTC.getResolver(
+          RESOLVER_FIND_MANY
+        ).resolve({
+          args: {
+            filter: whereClause,
+            limit: CATEGORY_FEATURE_COUNT
+          }
+        })
+
+        if (!categories || categories.length === 0) {
+          return []
+        }
+
+        // 2. get category info
+        let resultData = []
+
+        await Promise.all(
+          categories.map(async (category) => {
+            // 2.1. get category name
+            const productFilter = {
+              status: PRODUCT_STATUS.PUBLISHED
+            }
+
+            productFilter.category = category._id
+            const categoryName = category.name
+
+            let listProducts = []
+            let listRecipes = []
+
+            if (category.option === 'Product') {
+              listProducts = await composer.ProductTC.getResolver(
+                RESOLVER_FIND_MANY
+              ).resolve({
+                args: {
+                  filter: {
+                    category: category._id,
+                    status: 'Published'
+                  },
+                  limit: PRODUCT_IN_CATEGORY_FEATURE_COUNT,
+                  // sort: args.orderBy
+                }
+              })
+            }
+
+            if (category.option === 'Recipe') {
+              listRecipes = await composer.RecipeTC.getResolver(
+                RESOLVER_FIND_MANY
+              ).resolve({
+                args: {
+                  filter: {
+                    category: category._id,
+                    status: 'Published'
+                  },
+                  limit: RECIPE_IN_CATEGORY_FEATURE_COUNT,
+                  sort: args.orderBy
+                }
+              })
+            }
+
+            resultData.push({
+              _id: category._id,
+              index: category.index,
+              name: categoryName || null,
+              option: category.option,
+              image: category.image,
+              slug: category.slug,
+              products: listProducts,
+              recipes: listRecipes
+            })
+          })
+        )
+
+        return resultData
+      } catch (error) {
+
+        console.log('error....', error);
         throw new Error(error)
       }
     }

@@ -30,11 +30,13 @@ export const AuthAdminTC = schemaComposer.createObjectTC({
 export const CategoryFeatureTC = schemaComposer.createObjectTC({
   name: 'CategoryFeature',
   fields: {
-    id: 'ID!',
+    _id: 'ID!',
     index: 'Int!',
     name: 'String!',
     slug: 'String',
-    products: [ProductTC]
+    option: 'String',
+    products: [ProductTC],
+    recipes: [RecipeTC]
   }
 })
 
