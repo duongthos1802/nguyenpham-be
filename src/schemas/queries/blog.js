@@ -15,6 +15,7 @@ import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
 import { isBuffer } from 'lodash'
 import CategoryTC from '../composer/category'
+import { CATEGORY_STATUS, BLOG_STATUS } from '../../constants/enum'
 
 const BlogTC = composer.BlogTC
 
@@ -140,7 +141,7 @@ export default {
             args: {
               filter: {
                 slug: slug,
-                status: "Published"
+                status: CATEGORY_STATUS.PUBLISHED
               }
             }
           })
@@ -151,7 +152,7 @@ export default {
               args: {
                 filter: {
                   parentId: blogParent._id,
-                  status: "Published"
+                  status: CATEGORY_STATUS.PUBLISHED
                 }
               }
             })
@@ -165,7 +166,7 @@ export default {
             args: {
               filter: {
                 categoryId: _id,
-                status: "Published",
+                status: BLOG_STATUS.PUBLISHED,
                 Limit: 5
               }
             }
@@ -205,7 +206,7 @@ export default {
             args: {
               filter: {
                 category: _id,
-                status: "Published"
+                status: BLOG_STATUS.PUBLISHED
               },
               limit: limit || 9,
               skip: skip || 0
@@ -228,7 +229,7 @@ export default {
             args: {
               filter: {
                 _id: _id,
-                status: "Published"
+                status: CATEGORY_STATUS.PUBLISHED
               }
             }
           })
@@ -239,7 +240,7 @@ export default {
           ).resolve({
             args: {
               filter: {
-                status: "Published"
+                status: BLOG_STATUS.PUBLISHED
               },
               limit: limit || 9,
               skip: skip || 0
@@ -251,7 +252,7 @@ export default {
           ).resolve({
             args: {
               filter: {
-                status: "Published"
+                status: BLOG_STATUS.PUBLISHED
               }
             }
           })
@@ -262,7 +263,7 @@ export default {
             args: {
               filter: {
                 slug: slug,
-                status: "Published"
+                status: CATEGORY_STATUS.PUBLISHED
               }
             }
           })

@@ -11,7 +11,7 @@ const BannerGroup = new Schema(
     }
   },
   {
-    collection: 'bannergroups'
+    collection: 'bannerGroups'
   }
 )
 

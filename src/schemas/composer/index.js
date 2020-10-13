@@ -30,7 +30,8 @@ import {
   TrendingTC,
   ProductCustomTC,
   SearchBlogFeaturesTC,
-  BlogCustomTC
+  BlogCustomTC,
+  VideoCustomTC
 } from './custom'
 
 export default {
@@ -63,5 +64,6 @@ export default {
   TrendingTC,
   ProductCustomTC,
   SearchBlogFeaturesTC,
-  BlogCustomTC
+  BlogCustomTC,
+  VideoCustomTC
 }

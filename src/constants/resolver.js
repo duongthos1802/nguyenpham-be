@@ -46,6 +46,9 @@ export const RESOLVER_PAGE_COUNT = 'pageCount'
 export const RESOLVER_BLOG_FIND_MANY = 'blogFindMany'
 export const RESOLVER_BLOG_COUNT = 'blogCount'
 
+// CUSTOM BLOG
+export const RESOLVER_VIDEO_FIND_MANY = 'videoFindMany'
+export const RESOLVER_VIDEO_COUNT = 'videoCount'
 
 
 export default {
@@ -87,6 +90,9 @@ export default {
   RESOLVER_PAGE_COUNT,
 
   RESOLVER_BLOG_FIND_MANY,
-  RESOLVER_BLOG_COUNT
+  RESOLVER_BLOG_COUNT,
+
+  RESOLVER_VIDEO_FIND_MANY,
+  RESOLVER_VIDEO_COUNT
 
 }

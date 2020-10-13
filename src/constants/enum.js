@@ -50,3 +50,8 @@ export const FAQ_STATUS = {
   NORMAL: 'Normal',
   DELETED: 'Delete'
 }
+
+export const SORT_BY = {
+  DATE_ASC: 'date_DSC',
+  DATE_DESC: 'date_DESC'
+}

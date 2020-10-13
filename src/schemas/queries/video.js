@@ -12,6 +12,9 @@ import {
 } from '../../constants/resolver'
 import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
+import { VIDEO_LIMIT, VIDEO_ONE } from '../../constants'
+import CategoryTC from '../composer/category'
+import { CATEGORY_OPTION, VIDEO_STATUS, SORT_BY, BLOG_STATUS } from '../../constants/enum'
 
 const VideoTC = composer.VideoTC
 
@@ -77,11 +80,11 @@ export default {
         }
       })
 
-      
+
       let sortByVideo = sortHelper.getSortVideo(sortBy)
-        sortByVideo = {
-          ...sortByVideo
-        }
+      sortByVideo = {
+        ...sortByVideo
+      }
 
       aggregateClause.push({ $sort: sortByVideo })
 
@@ -115,4 +118,110 @@ export default {
       return searchVideo
     }
   },
+
+  videosBySlug: {
+    type: composer.VideoCustomTC,
+    args: {
+      // where: 'JSON',
+      // skip: 'Int',
+      // first: 'Int',
+      // sortBy: 'String'
+    },
+    resolve: async (_, { }, context, info) => {
+      try {
+
+        const categoryVideo = await CategoryTC.getResolver(
+          RESOLVER_FIND_MANY
+        ).resolve({
+          args: {
+            filter: {
+              option: CATEGORY_OPTION.VIDEO,
+              status: VIDEO_STATUS.PUBLISHED
+            },
+            limit: VIDEO_LIMIT
+          }
+        })
+
+        let dataCategoryVideo = []
+        categoryVideo.map(video => {
+          if (video.parentId) {
+            dataCategoryVideo.push(video)
+          }
+        })
+
+        const videoTrending = await VideoTC.getResolver(
+          RESOLVER_FIND_MANY
+        ).resolve({
+          args: {
+            filter: {
+              status: VIDEO_STATUS.PUBLISHED,
+              sort: SORT_BY.DATE_ASC
+            },
+            limit: VIDEO_ONE
+          }
+        })
+
+        return {
+          categoriesVideo: dataCategoryVideo,
+          videoTrending: videoTrending && videoTrending.length ? videoTrending[0] : null
+        }
+
+      } catch (error) {
+        console.log('err', error);
+      }
+    }
+  },
+
+  searchVideoBySlugId: {
+    type: composer.SearchVideoTC,
+    args: {
+      where: 'JSON'
+    },
+    resolve: async (_, { where }, context, info) => {
+      try {
+
+        let category = null
+        let videos = []
+        // let total = 0
+
+        const {
+          _id,
+          slug,
+          limit,
+          skip
+        } = where
+
+        if (_id) {
+          category = await composer.CategoryTC.getResolver(
+            RESOLVER_FIND_BY_ID
+          ).resolve({
+            args: {
+              _id: _id,
+              status: "Published"
+            }
+          })
+
+          videos = await VideoTC.getResolver(
+            RESOLVER_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                category: _id,
+                status: VIDEO_STATUS.PUBLISHED
+              },
+              limit: limit || 9,
+              skip: skip || 0
+            }
+          })
+        }
+        return {
+          category: category,
+          items: videos
+        }
+
+      } catch (error) {
+
+      }
+    }
+  }
 }

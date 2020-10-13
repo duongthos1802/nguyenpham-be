@@ -8,7 +8,7 @@ import { CACHE_EXPIRATION } from '../../constants/cache'
 import { customizationOptions } from '../customizationOptions'
 //composer
 import composer from '../composer'
-import { RESOLVER_BLOG_FIND_MANY, RESOLVER_PRODUCT_COUNT, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_FIND_BY_ID } from '../../constants/resolver'
+import { RESOLVER_BLOG_FIND_MANY, RESOLVER_PRODUCT_COUNT, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_FIND_BY_ID, RESOLVER_BLOG_COUNT } from '../../constants/resolver'
 
 export const BlogTC = composeWithDataLoader(
   composeWithMongoose(models.Blog, customizationOptions),
@@ -72,7 +72,7 @@ BlogTC.setResolver(
 )
 
 BlogTC.setResolver(
-  RESOLVER_PRODUCT_COUNT,
+  RESOLVER_BLOG_COUNT,
   resolverCount
     .addFilterArg({
       name: 'keyword',

@@ -9,19 +9,13 @@ import {
   RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
   RESOLVER_COUNT,
-  RESOLVER_PRODUCT_FIND_MANY,
-  RESOLVER_FIND_ONE,
-  RESOLVER_RECIPE_COUNT
+  RESOLVER_FIND_ONE
 } from '../../constants/resolver'
-import {
-  CATEGORY_FEATURE_COUNT,
-  CATEGORY_NAME,
-  PRODUCT_IN_CATEGORY_FEATURE_COUNT
-} from '../../constants'
+
 import { CategoryOption } from '../composer/enum'
-import { CATEGORY_OPTION, PRODUCT_STATUS } from '../../constants/enum'
+import { CATEGORY_OPTION, CATEGORY_STATUS } from '../../constants/enum'
 // extensions
-import { pageHelper, sortHelper } from '../../models/extensions'
+import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
 
 const CategoryTC = composer.CategoryTC
@@ -156,7 +150,7 @@ export default {
           args: {
             filter: {
               slug: slug,
-              status: "Published"
+              status: CATEGORY_STATUS.PUBLISHED
             }
           }
         })
@@ -168,7 +162,7 @@ export default {
             args: {
               filter: {
                 parentId: category._id,
-                status: "Published"
+                status: CATEGORY_STATUS.PUBLISHED
               }
             }
           })
@@ -178,7 +172,7 @@ export default {
           ).resolve({
             args: {
               filter: {
-                status: "Published"
+                status: CATEGORY_STATUS.PUBLISHED
               },
               limit: limit || 9,
               skip: skip || 0
@@ -233,7 +227,7 @@ export default {
           ).resolve({
             args: {
               _id: _id,
-              status: "Published"
+              status: CATEGORY_STATUS.PUBLISHED
             }
           })
           recipes = await composer.RecipeTC.getResolver(
@@ -266,7 +260,7 @@ export default {
             args: {
               filter: {
                 slug: slug,
-                status: "Published"
+                status: CATEGORY_STATUS.PUBLISHED
               }
             }
           })
@@ -278,7 +272,7 @@ export default {
               args: {
                 filter: {
                   parentId: categoriesRecipe._id,
-                  status: "Published"
+                  status: CATEGORY_STATUS.PUBLISHED
                 }
               }
             })

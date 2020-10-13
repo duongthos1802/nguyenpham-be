@@ -9,7 +9,7 @@ import {
 import { pageHelper } from '../../models/extensions'
 import { CATEGORY_FEATURE_COUNT, PRODUCT_IN_CATEGORY_FEATURE_COUNT, RECIPE_IN_CATEGORY_FEATURE_COUNT } from '../../constants'
 import CategoryTC from '../composer/category'
-import { PRODUCT_STATUS } from '../../constants/enum'
+import { PRODUCT_STATUS, RECIPE_STATUS, CATEGORY_OPTION } from '../../constants/enum'
 
 
 export default {
@@ -86,8 +86,6 @@ export default {
         // 1. get config home page
         const config = await pageHelper.getConfigHomePage()
 
-        console.log('config.......', config);
-
         // if (!config && !config.configEventLeft && !config.configEventRight) {
         //   return null
         // }
@@ -96,10 +94,8 @@ export default {
 
           const { configEventLeft, configEventRight } = config
 
-          console.log('config......', config);
           // 2. get event by config
           // let eventLeft = null
-
           if (configEventLeft) {
             event.eventLeft = await composer.HtmlBlockGroupTC.getResolver(
               RESOLVER_FIND_BY_ID
@@ -108,8 +104,6 @@ export default {
                 _id: configEventLeft.key
               }
             })
-
-            console.log('event.eventLeft.....', event.eventLeft);
           }
 
           if (configEventRight) {
@@ -122,8 +116,6 @@ export default {
             })
           }
 
-
-          // console.log('event.eventLeft.....', event.eventLeft);
         }
 
         return event
@@ -205,7 +197,7 @@ export default {
             let listProducts = []
             let listRecipes = []
 
-            if (category.option === 'Product') {
+            if (category.option === CATEGORY_OPTION.PRODUCT) {
               listProducts = await composer.ProductTC.getResolver(
                 RESOLVER_FIND_MANY
               ).resolve({
@@ -220,14 +212,14 @@ export default {
               })
             }
 
-            if (category.option === 'Recipe') {
+            if (category.option === CATEGORY_OPTION.RECIPE) {
               listRecipes = await composer.RecipeTC.getResolver(
                 RESOLVER_FIND_MANY
               ).resolve({
                 args: {
                   filter: {
                     category: category._id,
-                    status: 'Published'
+                    status: RECIPE_STATUS.PUBLISHED
                   },
                   limit: RECIPE_IN_CATEGORY_FEATURE_COUNT,
                   sort: args.orderBy

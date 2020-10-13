@@ -1,5 +1,4 @@
 import { schemaComposer } from 'graphql-compose'
-import models from "../../models";
 import { UserTC } from '../composer/user'
 import { UserSessionTC } from '../composer/userSession'
 import ProductTC from './product';
@@ -121,8 +120,17 @@ export const SearchBlogFeaturesTC = schemaComposer.createObjectTC({
 export const SearchVideoTC = schemaComposer.createObjectTC({
   name: "SearchVideo",
   fields: {
+    category: CategoryTC,
     items: [VideoTC],
     total: "Int",
+  },
+})
+
+export const VideoCustomTC = schemaComposer.createObjectTC({
+  name: "VideoCustomTC",
+  fields: {
+    categoriesVideo: [CategoryTC],
+    videoTrending: VideoTC,
   },
 })
 

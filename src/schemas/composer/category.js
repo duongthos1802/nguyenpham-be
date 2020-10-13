@@ -6,12 +6,13 @@ import models from '../../models'
 import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
-import { RESOLVER_PRODUCT_FIND_MANY, RESOLVER_FIND_BY_ID, RESOLVER_CATEGORY_FIND_MANY, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_CATEGORY_COUNT, RESOLVER_RECIPE_FIND_MANY, RESOLVER_BLOG_FIND_MANY } from '../../constants/resolver'
+import { RESOLVER_PRODUCT_FIND_MANY, RESOLVER_FIND_BY_ID, RESOLVER_CATEGORY_FIND_MANY, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_CATEGORY_COUNT, RESOLVER_RECIPE_FIND_MANY, RESOLVER_BLOG_FIND_MANY, RESOLVER_VIDEO_FIND_MANY } from '../../constants/resolver'
 import { ProductTC } from './product'
 import { BlogTC } from './blog'
 // composer
 import composer from '../composer'
 import RecipeTC from './recipe'
+import VideoTC from './video'
 
 export const CategoryTC = composeWithDataLoader(
   composeWithMongoose(models.Category, customizationOptions),
@@ -52,6 +53,24 @@ CategoryTC.addFields({
     args: BlogTC.getResolver(RESOLVER_BLOG_FIND_MANY).getArgs(),
     resolve: (source, args, context, info) => {
       return BlogTC.getResolver(RESOLVER_BLOG_FIND_MANY).resolve({
+        source,
+        args,
+        context,
+        info,
+        rawQuery: {
+          category: source._id
+        }
+      })
+    }
+  }
+})
+
+CategoryTC.addFields({
+  videos: {
+    type: [VideoTC],
+    args: VideoTC.getResolver(RESOLVER_VIDEO_FIND_MANY).getArgs(),
+    resolve: (source, args, context, info) => {
+      return VideoTC.getResolver(RESOLVER_VIDEO_FIND_MANY).resolve({
         source,
         args,
         context,
