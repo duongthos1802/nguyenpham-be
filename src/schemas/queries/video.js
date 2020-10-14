@@ -182,7 +182,7 @@ export default {
 
         let category = null
         let videos = []
-        // let total = 0
+        let total = 0
 
         const {
           _id,
@@ -213,10 +213,21 @@ export default {
               skip: skip || 0
             }
           })
+
+          total = await VideoTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter: {
+                category: _id
+              }
+            }
+          })
         }
         return {
           category: category,
-          items: videos
+          items: videos,
+          total: total
         }
 
       } catch (error) {
