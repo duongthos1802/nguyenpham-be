@@ -14,7 +14,7 @@ import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
 import { VIDEO_LIMIT, VIDEO_ONE } from '../../constants'
 import CategoryTC from '../composer/category'
-import { CATEGORY_OPTION, VIDEO_STATUS, SORT_BY, BLOG_STATUS } from '../../constants/enum'
+import { CATEGORY_OPTION, VIDEO_STATUS, SORT_BY, BLOG_STATUS, CATEGORY_STATUS } from '../../constants/enum'
 
 const VideoTC = composer.VideoTC
 
@@ -143,9 +143,12 @@ export default {
         })
 
         let dataCategoryVideo = []
+        let categoryParent = null
         categoryVideo.map(video => {
           if (video.parentId) {
             dataCategoryVideo.push(video)
+          } else {
+            categoryParent = video
           }
         })
 
@@ -162,6 +165,7 @@ export default {
         })
 
         return {
+          category: categoryParent,
           categoriesVideo: dataCategoryVideo,
           videoTrending: videoTrending && videoTrending.length ? videoTrending[0] : null
         }
@@ -197,7 +201,7 @@ export default {
           ).resolve({
             args: {
               _id: _id,
-              status: "Published"
+              status: CATEGORY_STATUS.PUBLISHED
             }
           })
 

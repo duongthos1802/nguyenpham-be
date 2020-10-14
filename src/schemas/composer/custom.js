@@ -129,6 +129,7 @@ export const SearchVideoTC = schemaComposer.createObjectTC({
 export const VideoCustomTC = schemaComposer.createObjectTC({
   name: "VideoCustomTC",
   fields: {
+    category: CategoryTC,
     categoriesVideo: [CategoryTC],
     videoTrending: VideoTC,
   },
