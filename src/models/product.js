@@ -33,6 +33,9 @@ const Product = new Schema(
     tutorial: {
       type: String
     },
+    preservation: {
+      type: String
+    },
     isPriority: {
       type: Boolean,
       default: false
