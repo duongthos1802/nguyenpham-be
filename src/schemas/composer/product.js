@@ -7,12 +7,12 @@ import composer from '../composer'
 // constants
 import { CACHE_EXPIRATION } from '../../constants/cache'
 import { ProductStatus } from './enum'
-import { 
-  RESOLVER_FIND_BY_ID, 
-  RESOLVER_PRODUCT_FIND_MANY, 
-  RESOLVER_FIND_MANY, 
-  RESOLVER_PRODUCT_COUNT, 
-  RESOLVER_COUNT 
+import {
+  RESOLVER_FIND_BY_ID,
+  RESOLVER_PRODUCT_FIND_MANY,
+  RESOLVER_FIND_MANY,
+  RESOLVER_PRODUCT_COUNT,
+  RESOLVER_COUNT
 } from '../../constants/resolver'
 // options
 import { customizationOptions } from '../customizationOptions'
@@ -32,6 +32,20 @@ ProductTC.addRelation('category', {
     _id: (source) => source.category
   },
   projection: { category: 1 }
+})
+
+ProductTC.addRelation('recipes', {
+  resolver: () => composer.RecipeTC.getResolver(RESOLVER_FIND_MANY),
+  prepareArgs: {
+    filter: (source) => ({
+      _operators: {
+        _id: {
+          in: source.recipes
+        }
+      }
+    })
+  },
+  projection: { recipes: 1 }
 })
 
 // CUSTOM RESOLVER

@@ -43,6 +43,10 @@ const Product = new Schema(
     logo: {
       type: String
     },
+    recipes: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Recipe'
+    }],
     images: [
       {
         type: Schema.Types.ObjectId,
