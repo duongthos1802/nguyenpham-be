@@ -189,11 +189,8 @@ export default {
         await Promise.all(
           categories.map(async (category) => {
             // 2.1. get category name
-            const productFilter = {
 
-            }
-
-            const productFilter = {
+            let productFilter = {
               OR: [
                 {
                   status: PRODUCT_STATUS.PUBLISHED
