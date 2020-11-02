@@ -15,6 +15,7 @@ import {
 // extensions
 import { stringHelper } from '../../extensions'
 import { pageHelper, sortHelper } from '../../models/extensions'
+import { CATEGORY_STATUS, PRODUCT_STATUS } from '../../constants/enum'
 
 const ProductTC = composer.ProductTC
 
@@ -242,15 +243,17 @@ export default {
           ).resolve({
             args: {
               _id: _id,
-              status: "Published"
+              status: CATEGORY_STATUS.PUBLISHED
             }
           })
+
           products = await composer.ProductTC.getResolver(
             RESOLVER_FIND_MANY
           ).resolve({
             args: {
               filter: {
-                category: _id
+                category: _id,
+                status: PRODUCT_STATUS.PUBLISHED
               },
               limit: limit || 9,
               skip: skip || 0
@@ -274,7 +277,7 @@ export default {
             args: {
               filter: {
                 slug: slug,
-                status: "Published"
+                status: CATEGORY_STATUS.PUBLISHED
               }
             }
           })
@@ -286,7 +289,7 @@ export default {
               args: {
                 filter: {
                   parentId: categoriesProduct._id,
-                  status: "Published"
+                  status: CATEGORY_STATUS.PUBLISHED
                 }
               }
             })

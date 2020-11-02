@@ -24,10 +24,16 @@ const Product = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },
+    application: {
+      type: String
+    },
     attribute: {
       type: String
     },
     packing: {
+      type: String
+    },
+    expirationDate: {
       type: String
     },
     tutorial: {
