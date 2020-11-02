@@ -9,7 +9,7 @@ import {
 import { pageHelper } from '../../models/extensions'
 import { CATEGORY_FEATURE_COUNT, PRODUCT_IN_CATEGORY_FEATURE_COUNT, RECIPE_IN_CATEGORY_FEATURE_COUNT } from '../../constants'
 import CategoryTC from '../composer/category'
-import { PRODUCT_STATUS, RECIPE_STATUS, CATEGORY_OPTION } from '../../constants/enum'
+import { PRODUCT_STATUS, RECIPE_STATUS, CATEGORY_OPTION, CATEGORY_STATUS } from '../../constants/enum'
 
 
 export default {
@@ -173,6 +173,7 @@ export default {
         ).resolve({
           args: {
             filter: whereClause,
+            status: CATEGORY_STATUS.PUBLISHED,
             limit: CATEGORY_FEATURE_COUNT
           }
         })
@@ -204,7 +205,7 @@ export default {
                 args: {
                   filter: {
                     category: category._id,
-                    status: 'Published'
+                    status: PRODUCT_STATUS.PUBLISHED
                   },
                   limit: PRODUCT_IN_CATEGORY_FEATURE_COUNT,
                   // sort: args.orderBy

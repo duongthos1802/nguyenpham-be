@@ -41,7 +41,8 @@ export default {
           RESOLVER_FIND_BY_ID
         ).resolve({
           args: {
-            _id: config.configCategory.key
+            _id: config.configCategory.key,
+            status: CATEGORY_STATUS.PUBLISHED
           }
         })
 
