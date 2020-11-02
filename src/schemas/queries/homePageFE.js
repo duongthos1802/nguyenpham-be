@@ -174,7 +174,8 @@ export default {
           args: {
             filter: whereClause,
             status: CATEGORY_STATUS.PUBLISHED,
-            limit: CATEGORY_FEATURE_COUNT
+            limit: CATEGORY_FEATURE_COUNT,
+
           }
         })
 
@@ -189,8 +190,18 @@ export default {
           categories.map(async (category) => {
             // 2.1. get category name
             const productFilter = {
-              status: PRODUCT_STATUS.PUBLISHED
+
             }
+
+            const productFilter = {
+              OR: [
+                {
+                  status: PRODUCT_STATUS.PUBLISHED
+                }
+              ],
+              isPriority: true
+            }
+
 
             productFilter.category = category._id
             const categoryName = category.name
@@ -203,10 +214,7 @@ export default {
                 RESOLVER_FIND_MANY
               ).resolve({
                 args: {
-                  filter: {
-                    category: category._id,
-                    status: PRODUCT_STATUS.PUBLISHED
-                  },
+                  filter: productFilter,
                   limit: PRODUCT_IN_CATEGORY_FEATURE_COUNT,
                   // sort: args.orderBy
                 }
@@ -219,7 +227,7 @@ export default {
               ).resolve({
                 args: {
                   filter: {
-                    category: category._id,
+                    category: productFilter,
                     status: RECIPE_STATUS.PUBLISHED
                   },
                   limit: RECIPE_IN_CATEGORY_FEATURE_COUNT,
