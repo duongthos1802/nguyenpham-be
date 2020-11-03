@@ -38,14 +38,15 @@ export default {
         }
 
         const configCategory = await composer.CategoryTC.getResolver(
-          RESOLVER_FIND_BY_ID
+          RESOLVER_FIND_ONE
         ).resolve({
           args: {
-            _id: config.configCategory.key,
-            status: CATEGORY_STATUS.PUBLISHED
+            filter: {
+              _id: config.configCategory.key,
+              status: CATEGORY_STATUS.PUBLISHED
+            }
           }
         })
-
         return configCategory
 
       } catch (error) {
