@@ -145,6 +145,7 @@ export default {
               }
             }
           })
+
           if (blogParent && blogParent._id) {
             searchBlogFeatures.categoryBlog = await composer.CategoryTC.getResolver(
               RESOLVER_FIND_MANY
@@ -167,11 +168,12 @@ export default {
               filter: {
                 categoryId: _id,
                 status: BLOG_STATUS.PUBLISHED,
-                Limit: 5
-              }
+              },
+              limit: 5
             }
           })
         }
+
         return searchBlogFeatures
 
       } catch (error) {

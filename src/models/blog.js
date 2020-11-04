@@ -5,10 +5,10 @@ import { BLOG_STATUS } from '../constants/enum'
 
 const Blog = new Schema(
   {
-    index: {
-      type: Number,
-      unique: true
-    },
+    // index: {
+    //   type: Number,
+    //   unique: true
+    // },
     name: {
       type: String,
       require: true
