@@ -61,9 +61,11 @@ app.use('/uploads', express.static('uploads'))
 app.post('/uploads', (req, res) => {
   upload(req, res, function async(err) {
     if (err instanceof multer.MulterError) {
+      console.log('err...1', err)
       return res.status(500).json(err)
       // A Multer error occurred when uploading.
     } else if (err) {
+      console.log('err...', err)
       return res.status(500).json(err)
       // An unknown error occurred when uploading.
     }
