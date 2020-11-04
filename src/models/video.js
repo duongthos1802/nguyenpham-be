@@ -8,6 +8,9 @@ const Video = new Schema(
       type: String,
       required: true
     },
+    idUrl: {
+      type: String,
+    },
     content: {
       type: String,
     },
