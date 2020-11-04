@@ -71,6 +71,7 @@ const uploadImageAWS = async (file, type) => {
 
     return fileRecord ? fileRecord.record : null
   } catch (error) {
+    console.log('error', error)
     throw new Error(error)
   }
 }
