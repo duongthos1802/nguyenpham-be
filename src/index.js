@@ -58,7 +58,7 @@ app.use('/uploads', express.static('uploads'))
 /* =====              Making Routes               ===== */
 /* =====                                          ===== */
 /* ==================================================== */
-app.post('/uploads', (req, res) => {
+app.post('/uploads', cors(), (req, res) => {
   upload(req, res, function async(err) {
     if (err instanceof multer.MulterError) {
       console.log('err...1', err)
