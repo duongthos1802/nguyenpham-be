@@ -58,7 +58,19 @@ app.use('/uploads', express.static('uploads'))
 /* =====              Making Routes               ===== */
 /* =====                                          ===== */
 /* ==================================================== */
-app.post('/uploads', cors(), (req, res) => {
+
+var whitelist = ['http://admin.chuquancafe.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.post('/uploads', cors(corsOptions), (req, res) => {
   upload(req, res, function async(err) {
     if (err instanceof multer.MulterError) {
       console.log('err...1', err)
