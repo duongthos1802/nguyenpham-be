@@ -9,7 +9,8 @@ export const CATEGORY_OPTION = {
   RECIPE: 'Recipe',
   VIDEO: 'Video',
   SERVICE: 'Service',
-  BLOG: 'Blog'
+  BLOG: 'Blog',
+  NORMAL: ''
 }
 
 export const RECIPE_STATUS = {
