@@ -4,6 +4,7 @@ export const CATEGORY_STATUS = {
 }
 
 export const CATEGORY_OPTION = {
+  HOME: 'Home',
   PRODUCT: 'Product',
   RECIPE: 'Recipe',
   VIDEO: 'Video',
