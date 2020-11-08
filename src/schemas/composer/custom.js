@@ -7,6 +7,7 @@ import RecipeTC from './recipe';
 import CategoryTC from './category';
 import BlogTC from './blog';
 import VideoTC from './video';
+import BannerGroupTC from './bannerGroup';
 
 export const UserPermissonTC = schemaComposer.createObjectTC({
   name: "UserPermisson",
@@ -44,7 +45,9 @@ export const EventHomeTC = schemaComposer.createObjectTC({
   name: 'EventModel',
   fields: {
     eventLeft: HtmlBlockGroupTC,
-    eventRight: HtmlBlockGroupTC
+    urlVideo: "String",
+    eventRightActive: "String",
+    bannerGroup: BannerGroupTC
   }
 })
 

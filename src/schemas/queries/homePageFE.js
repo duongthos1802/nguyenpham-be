@@ -9,8 +9,14 @@ import {
 import { pageHelper } from '../../models/extensions'
 import { CATEGORY_FEATURE_COUNT, PRODUCT_IN_CATEGORY_FEATURE_COUNT, RECIPE_IN_CATEGORY_FEATURE_COUNT } from '../../constants'
 import CategoryTC from '../composer/category'
-import { PRODUCT_STATUS, RECIPE_STATUS, CATEGORY_OPTION, CATEGORY_STATUS } from '../../constants/enum'
+import { PRODUCT_STATUS, RECIPE_STATUS, CATEGORY_OPTION, CATEGORY_STATUS, EVENT_HOME_BY } from '../../constants/enum'
 
+const getIdByVideo = (url) => {
+  if (!url) return null
+  const arrayStringUrl = url.split('=')
+  const id = arrayStringUrl.slice(arrayStringUrl.length - 1, arrayStringUrl.length)
+  return id
+}
 
 export default {
   getBannerHomePage: {
@@ -81,7 +87,9 @@ export default {
       try {
         const event = {
           eventLeft: null,
-          eventRight: null
+          urlVideo: null,
+          eventRightActive: null,
+          bannerGroup: null
         }
         // 1. get config home page
         const config = await pageHelper.getConfigHomePage()
@@ -92,7 +100,7 @@ export default {
 
         if (config) {
 
-          const { configEventLeft, configEventRight } = config
+          const { configEventLeft, configEventRightVideo, configEventRightBanner, configEventRightActive } = config
 
           // 2. get event by config
           // let eventLeft = null
@@ -106,18 +114,26 @@ export default {
             })
           }
 
-          if (configEventRight) {
-            event.eventRight = await composer.HtmlBlockGroupTC.getResolver(
-              RESOLVER_FIND_BY_ID
-            ).resolve({
-              args: {
-                _id: configEventRight.key
-              }
-            })
+          if (configEventRightActive) {
+            event.eventRightActive = configEventRightActive
+
+            // get Video by config
+            if (configEventRightVideo && configEventRightActive === EVENT_HOME_BY.VIDEO) {
+              event.urlVideo = configEventRightVideo
+            }
+
+            // get banner by config
+            if (configEventRightBanner && configEventRightActive === EVENT_HOME_BY.BANNER) {
+              event.bannerGroup = await composer.BannerGroupTC.getResolver(
+                RESOLVER_FIND_BY_ID
+              ).resolve({
+                args: {
+                  _id: config.configEventRightBanner.key
+                }
+              })
+            }
           }
-
         }
-
         return event
 
       } catch (error) {

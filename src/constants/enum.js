@@ -55,3 +55,8 @@ export const SORT_BY = {
   DATE_ASC: 'date_DSC',
   DATE_DESC: 'date_DESC'
 }
+
+export const EVENT_HOME_BY = {
+  BANNER: 'Banner',
+  VIDEO: 'Video'
+}
