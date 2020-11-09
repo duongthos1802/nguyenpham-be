@@ -3,7 +3,8 @@ import composer from '../composer'
 // constant
 import {
   RESOLVER_FIND_BY_ID,
-  RESOLVER_FIND_MANY
+  RESOLVER_FIND_MANY,
+  RESOLVER_FIND_ONE
 } from '../../constants/resolver'
 // helper
 import { pageHelper } from '../../models/extensions'
@@ -153,6 +154,7 @@ export default {
         const config = await pageHelper.getConfigHomePage()
 
         const whereClause = {}
+        let idWhereClause = []
         if (config) {
           const {
             // configCategory,
@@ -161,40 +163,47 @@ export default {
             configCategoryFour
           } = config
 
-          if (configCategorySecond || configCategoryThird) {
-            let idWhereClause = []
 
-            if (configCategoryFour && configCategoryFour.key) {
-              idWhereClause.push(configCategoryFour.key)
+
+          if (configCategorySecond || configCategoryThird || configCategoryFour) {
+
+            if (configCategorySecond && configCategorySecond.key) {
+              idWhereClause.push(configCategorySecond.key)
             }
 
             if (configCategoryThird && configCategoryThird.key) {
               idWhereClause.push(configCategoryThird.key)
             }
 
-            if (configCategorySecond && configCategorySecond.key) {
-              idWhereClause.push(configCategorySecond.key)
+            if (configCategoryFour && configCategoryFour.key) {
+              idWhereClause.push(configCategoryFour.key)
             }
 
-            whereClause._operators = {
-              _id: {
-                in: idWhereClause
-              }
-            }
           }
         }
 
         // 1. get first 2 category
-        const categories = await CategoryTC.getResolver(
-          RESOLVER_FIND_MANY
-        ).resolve({
-          args: {
-            filter: whereClause,
-            status: CATEGORY_STATUS.PUBLISHED,
-            limit: CATEGORY_FEATURE_COUNT,
+        let categories = []
+        let indexId = 0
 
+        while (indexId < idWhereClause.length) {
+          const cate = await CategoryTC.getResolver(
+            RESOLVER_FIND_ONE
+          ).resolve({
+            args: {
+              filter: {
+                _id: idWhereClause[indexId]
+              },
+              status: CATEGORY_STATUS.PUBLISHED,
+              limit: CATEGORY_FEATURE_COUNT,
+            }
+          })
+
+          if (cate) {
+            categories.push(cate)
           }
-        })
+          indexId++
+        }
 
         if (!categories || categories.length === 0) {
           return []
@@ -202,71 +211,68 @@ export default {
 
         // 2. get category info
         let resultData = []
+        let index = 0
 
-        await Promise.all(
-          categories.map(async (category) => {
-            // 2.1. get category name
+        while (index < categories.length) {
 
-            let productFilter = {
-              OR: [
-                {
-                  status: PRODUCT_STATUS.PUBLISHED
-                }
-              ],
-              isPriority: true
-            }
+          // 2.1. get category name
+          let productFilter = {
+            OR: [
+              {
+                status: PRODUCT_STATUS.PUBLISHED
+              }
+            ],
+            isPriority: true
+          }
 
+          productFilter.category = categories[index]._id
+          const categoryName = categories[index].name
 
-            productFilter.category = category._id
-            const categoryName = category.name
+          let listProducts = []
+          let listRecipes = []
 
-            let listProducts = []
-            let listRecipes = []
-
-            if (category.option === CATEGORY_OPTION.PRODUCT) {
-              listProducts = await composer.ProductTC.getResolver(
-                RESOLVER_FIND_MANY
-              ).resolve({
-                args: {
-                  filter: productFilter,
-                  limit: PRODUCT_IN_CATEGORY_FEATURE_COUNT,
-                  // sort: args.orderBy
-                }
-              })
-            }
-
-            if (category.option === CATEGORY_OPTION.RECIPE) {
-              listRecipes = await composer.RecipeTC.getResolver(
-                RESOLVER_FIND_MANY
-              ).resolve({
-                args: {
-                  filter: {
-                    category: productFilter,
-                    status: RECIPE_STATUS.PUBLISHED
-                  },
-                  limit: RECIPE_IN_CATEGORY_FEATURE_COUNT,
-                  sort: args.orderBy
-                }
-              })
-            }
-
-            resultData.push({
-              _id: category._id,
-              index: category.index,
-              name: categoryName || null,
-              option: category.option,
-              image: category.image,
-              slug: category.slug,
-              products: listProducts,
-              recipes: listRecipes
+          if (categories[index].option === CATEGORY_OPTION.PRODUCT) {
+            listProducts = await composer.ProductTC.getResolver(
+              RESOLVER_FIND_MANY
+            ).resolve({
+              args: {
+                filter: productFilter,
+                limit: PRODUCT_IN_CATEGORY_FEATURE_COUNT,
+                // sort: args.orderBy
+              }
             })
+          }
+
+          if (categories[index] === CATEGORY_OPTION.RECIPE) {
+            listRecipes = await composer.RecipeTC.getResolver(
+              RESOLVER_FIND_MANY
+            ).resolve({
+              args: {
+                filter: {
+                  category: productFilter,
+                  status: RECIPE_STATUS.PUBLISHED
+                },
+                limit: RECIPE_IN_CATEGORY_FEATURE_COUNT
+              }
+            })
+          }
+
+          resultData.push({
+            _id: categories[index]._id,
+            index: categories[index].index,
+            name: categoryName || null,
+            option: categories[index].option,
+            image: categories[index].image,
+            slug: categories[index].slug,
+            products: listProducts,
+            recipes: listRecipes
           })
-        )
+
+          index++
+        }
 
         return resultData
       } catch (error) {
-
-        console.log('error....', error);
         throw new Error(error)
       }
     }
