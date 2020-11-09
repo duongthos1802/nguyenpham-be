@@ -164,15 +164,16 @@ export default {
           if (configCategorySecond || configCategoryThird) {
             let idWhereClause = []
 
-            if (configCategorySecond && configCategorySecond.key) {
-              idWhereClause.push(configCategorySecond.key)
+            if (configCategoryFour && configCategoryFour.key) {
+              idWhereClause.push(configCategoryFour.key)
             }
+
             if (configCategoryThird && configCategoryThird.key) {
               idWhereClause.push(configCategoryThird.key)
             }
 
-            if (configCategoryFour && configCategoryFour.key) {
-              idWhereClause.push(configCategoryFour.key)
+            if (configCategorySecond && configCategorySecond.key) {
+              idWhereClause.push(configCategorySecond.key)
             }
 
             whereClause._operators = {
