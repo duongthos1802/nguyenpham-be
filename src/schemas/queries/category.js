@@ -13,7 +13,7 @@ import {
 } from '../../constants/resolver'
 
 import { CategoryOption } from '../composer/enum'
-import { CATEGORY_OPTION, CATEGORY_STATUS } from '../../constants/enum'
+import { CATEGORY_OPTION, CATEGORY_STATUS, RECIPE_STATUS } from '../../constants/enum'
 // extensions
 import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
@@ -235,7 +235,8 @@ export default {
           ).resolve({
             args: {
               filter: {
-                category: _id
+                category: _id,
+                status: RECIPE_STATUS.PUBLISHED
               },
               limit: limit || 10,
               skip: skip || 0
@@ -246,7 +247,8 @@ export default {
           ).resolve({
             args: {
               filter: {
-                category: _id
+                category: _id,
+                status: RECIPE_STATUS.PUBLISHED
               }
             }
           })
