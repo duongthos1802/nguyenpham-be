@@ -184,7 +184,7 @@ export default {
           ).resolve({
             args: {
               filter: {
-                status: "Published"
+                status: RECIPE_STATUS.PUBLISHED
               }
             }
           })
