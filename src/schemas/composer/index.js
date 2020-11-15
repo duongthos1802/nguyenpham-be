@@ -13,6 +13,7 @@ import { VideoTC } from './video'
 import { UserSessionTC } from './userSession'
 import { ProductTC } from './product'
 import { PageTC } from './page'
+import { CustomerTC } from './customer'
 
 
 // customs
@@ -31,7 +32,8 @@ import {
   ProductCustomTC,
   SearchBlogFeaturesTC,
   BlogCustomTC,
-  VideoCustomTC
+  VideoCustomTC,
+  SearchCustomerTC
 } from './custom'
 
 export default {
@@ -65,5 +67,7 @@ export default {
   ProductCustomTC,
   SearchBlogFeaturesTC,
   BlogCustomTC,
-  VideoCustomTC
+  VideoCustomTC,
+  CustomerTC,
+  SearchCustomerTC
 }

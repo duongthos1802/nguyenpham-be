@@ -8,6 +8,7 @@ import CategoryTC from './category';
 import BlogTC from './blog';
 import VideoTC from './video';
 import BannerGroupTC from './bannerGroup';
+import CustomerTC from './customer';
 
 export const UserPermissonTC = schemaComposer.createObjectTC({
   name: "UserPermisson",
@@ -145,3 +146,11 @@ export const TrendingTC = schemaComposer.createObjectTC({
     option: "String"
   },
 })
+
+export const SearchCustomerTC = schemaComposer.createObjectTC({
+  name: "SearchCustomer",
+  fields: {
+    items: [CustomerTC],
+    total: "Int",
+  },
+});

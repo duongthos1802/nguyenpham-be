@@ -3,6 +3,12 @@ export const CATEGORY_STATUS = {
   SUSPENDED: 'Suspended'
 }
 
+export const CUSTOMER_STATUS = {
+  COMPLETED: 'Completed',
+  AWAITING: 'Awaiting',
+  DELETED: 'Deleted'
+}
+
 export const CATEGORY_OPTION = {
   HOME: 'Home',
   PRODUCT: 'Product',
