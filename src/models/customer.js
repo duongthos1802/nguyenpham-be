@@ -21,6 +21,9 @@ const Customer = new Schema(
     email: {
       type: String
     },
+    date: {
+      type: String
+    },
     status: {
       type: String,
       enum: Object.values(CUSTOMER_STATUS)

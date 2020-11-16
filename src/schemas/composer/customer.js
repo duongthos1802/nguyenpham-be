@@ -6,6 +6,7 @@ import models from '../../models'
 import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
+import { RESOLVER_CREATE_ONE } from '../../constants/resolver'
 
 export const CustomerTC = composeWithDataLoader(
   composeWithMongoose(models.Customer, customizationOptions),

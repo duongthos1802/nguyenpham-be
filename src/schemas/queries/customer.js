@@ -7,7 +7,11 @@ import {
   RESOLVER_COUNT
 } from '../../constants/resolver'
 import { DEFAULT_PAGE_SIZE, EUROPE_TIMEZONE, FORMAT_DATE_EN } from '../../constants'
-import { dateTimeHelper } from '../../extensions'
+import { dateTimeHelper, stringHelper } from '../../extensions'
+import { sortHelper } from '../../models/extensions'
+import { ApolloError } from 'apollo-server-express'
+import { ERROR_MESSAGE } from '../../constants/errorCode'
+import { models } from 'mongoose'
 
 const CustomerTC = composer.CustomerTC
 
@@ -17,244 +21,107 @@ export default {
   customersConnection: CustomerTC.getResolver(RESOLVER_CONNECTION),
   customersCount: CustomerTC.getResolver(RESOLVER_COUNT),
   customersPagination: CustomerTC.getResolver(RESOLVER_PAGINATION),
-  // searchCustomer: {
-  //   type: composer.SearchCustomerTC,
-  //   args: {
-  //     where: 'JSON',
-  //     skip: 'Int',
-  //     first: 'Int',
-  //     sortBy: 'String'
-  //   },
-  //   resolve: async (_, { skip, first, where, sortBy }, context, info) => {
-  //     try {
-  //       let optionMatchClause = {}
-  //       let aggregateClause = []
-  //       const searchCustomer = {
-  //         total: 0,
-  //         items: []
-  //       }
+  searchCustomer: {
+    type: composer.SearchCustomerTC,
+    args: {
+      where: 'JSON',
+      skip: 'Int',
+      first: 'Int',
+      sortBy: 'String'
+    },
+    resolve: async (_, args, context, info) => {
+      try {
 
-  //       if (where) {
-  //         const {
-  //           calendar,
-  //           status
-  //         } = where
+        if (!args) {
+          return new ApolloError(
+            ERROR_MESSAGE.MISSED_FIELD.text,
+            ERROR_MESSAGE.MISSED_FIELD.extensionCode
+          )
+        }
 
-  //         //search by status
-  //         if (status) {
-  //           optionMatchClause.status = { $in: [status] }
-  //         }
+        const { skip, first, where, sortBy } = args
 
-  //         if (!isEmpty(optionMatchClause)) {
-  //           aggregateClause.push({ $match: optionMatchClause })
-  //         }
+        let optionMatchClause = {}
+        let aggregateClause = []
+        const searchCustomer = {
+          total: 0,
+          items: []
+        }
 
-  //         if (calendar) {
-  //           const { fromDate, toDate } = calendar
-  //           if (fromDate !== undefined && toDate !== undefined) {
-  //             const preDate = dateTimeHelper.formatDateTimeWithToken(
-  //               dateTimeHelper.subtractUnitTime({
-  //                 currentDate: toDate,
-  //                 amount: 1,
-  //                 unit: 'days'
-  //               }),
-  //               FORMAT_DATE_EN
-  //             )
+        aggregateClause.push({
+          $group: {
+            _id: '$_id',
+            items: { $last: '$$ROOT' }
+          }
+        })
 
-  //             const momentFromDate = {
-  //               $dateFromString: {
-  //                 dateString: fromDate,
-  //                 timezone: EUROPE_TIMEZONE
-  //               }
-  //             }
-  //             const momentToDate = {
-  //               $dateFromString: {
-  //                 dateString: toDate,
-  //                 timezone: EUROPE_TIMEZONE
-  //               }
-  //             }
-  //             const momentPreDate = {
-  //               $dateFromString: {
-  //                 dateString: preDate.toString(),
-  //                 timezone: EUROPE_TIMEZONE
-  //               }
-  //             }
+        if (where) {
+          const { status, startDate, endDate } = where
+          // search by date
+          if (startDate && endDate) {
+            aggregateClause.push({
+              $match: {
+                $and: [
+                  {
+                    $or: [
+                      {
+                        $and: [
+                          { 'items.date': { $gte: startDate } },
+                          { 'items.date': { $lte: endDate } }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            })
+          }
+          // search by status
+          if (status) {
+            aggregateClause.push({
+              $match: {
+                'items.status': stringHelper.regexMongooseKeyword(status)
+              }
+            })
+          }
+        }
+        //sort by item
+        aggregateClause.push({ $sort: sortHelper.getSortCustomer(sortBy) })
 
-  //             //group object and adđ items element
-  //             aggregateClause.push({
-  //               $group: {
-  //                 _id: '$_id',
-  //                 calendar: { $last: '$calendar' },
-  //                 items: { $last: '$$ROOT' }
-  //               }
-  //             })
+        aggregateClause.push({
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            entries: { $push: '$items' }
+          }
+        })
 
-  //             //unwind property calendar
-  //             aggregateClause.push({
-  //               $unwind: { path: '$calendar', preserveNullAndEmptyArrays: true }
-  //             })
+        aggregateClause.push({
+          $project: {
+            _id: 0,
+            total: '$count',
+            items: {
+              $slice: ['$entries', skip || 0, first || DEFAULT_PAGE_SIZE]
+            }
+          }
+        })
 
-  //             //unwind property inActive in calendar
-  //             aggregateClause.push({
-  //               $unwind: {
-  //                 path: '$calendar.inActive',
-  //                 preserveNullAndEmptyArrays: true
-  //               }
-  //             })
+        const customers = await models.Customer.aggregate(aggregateClause)
 
-  //             //init project and convert string to date time
-  //             aggregateClause.push({
-  //               $project: {
-  //                 _id: 1,
-  //                 //init calender
-  //                 calendar: {
-  //                   $cond: {
-  //                     if: { $ifNull: ['$calendar.inActive', null] },
-  //                     then: {
-  //                       $cond: {
-  //                         //if items active length = 2 return false
-  //                         if: {
-  //                           $gt: [
-  //                             { $strLenCP: '$calendar.inActive' },
-  //                             MIN_PRODUCT_INACTIVE_DATE
-  //                           ]
-  //                         },
-  //                         //covert date time from string
-  //                         then: {
-  //                           $dateFromString: {
-  //                             dateString: '$calendar.inActive',
-  //                             timezone: EUROPE_TIMEZONE
-  //                           }
-  //                         },
-  //                         else: null
-  //                       }
-  //                     },
-  //                     //then: '$calendar.inActive',
-  //                     else: null
-  //                   }
-  //                 },
-  //                 items: 1
-  //               }
-  //             })
+        // find customer with clauses
+        if (!!customers) {
+          if (customers.length > 0) {
+            //list customer
+            searchCustomer.total = customers[0].total
+            searchCustomer.items = customers[0].items
+          }
+        }
 
-  //             //group calendar and get last item, first item
-  //             aggregateClause.push({
-  //               $group: {
-  //                 _id: '$_id',
-  //                 calendar: { $addToSet: '$calendar' },
-  //                 items: { $last: '$items' }
-  //               }
-  //             })
-
-  //             //sort item by calendar
-  //             aggregateClause.push({ $unwind: '$calendar' })
-
-  //             aggregateClause.push({ $sort: { calendar: 1 } })
-
-  //             //group by lastCalendar, firstCalendar
-  //             aggregateClause.push({
-  //               $group: {
-  //                 _id: '$_id',
-  //                 calendar: { $push: '$calendar' },
-  //                 items: { $last: '$items' },
-  //                 lastCalendar: {
-  //                   $last: '$calendar'
-  //                 },
-  //                 firstCalendar: {
-  //                   $first: '$calendar'
-  //                 }
-  //               }
-  //             })
-
-  //             //check by from date and to date
-  //             aggregateClause.push({
-  //               $redact: {
-  //                 $cond: [
-  //                   {
-  //                     $or: [
-  //                       { $eq: [{ $in: [momentFromDate, '$calendar'] }, true] },
-  //                       {
-  //                         $eq: [
-  //                           {
-  //                             $and: [
-  //                               { $in: [momentToDate, '$calendar'] },
-  //                               { $in: [momentPreDate, '$calendar'] }
-  //                             ]
-  //                           },
-  //                           true
-  //                         ]
-  //                       },
-  //                       {
-  //                         $eq: [
-  //                           {
-  //                             $and: [
-  //                               { $gt: ['$firstCalendar', momentFromDate] },
-  //                               { $lt: ['$lastCalendar', momentToDate] }
-  //                             ]
-  //                           },
-  //                           true
-  //                         ]
-  //                       }
-  //                     ]
-  //                   },
-  //                   '$$PRUNE',
-  //                   '$$KEEP'
-  //                 ]
-  //               }
-  //             })
-  //           } else {
-  //             //group items
-  //             aggregateClause.push({
-  //               $group: {
-  //                 _id: '$_id',
-  //                 items: { $last: '$$ROOT' }
-  //               }
-  //             })
-  //           }
-  //         } else {
-  //           //group items
-  //           aggregateClause.push({
-  //             $group: {
-  //               _id: '$_id',
-  //               items: { $last: '$$ROOT' }
-  //             }
-  //           })
-  //         }
-  //       }
-
-  //       aggregateClause.push({
-  //         $group: {
-  //           _id: null,
-  //           count: { $sum: 1 },
-  //           entries: { $push: '$items' }
-  //         }
-  //       })
-
-  //       aggregateClause.push({
-  //         $project: {
-  //           _id: 0,
-  //           total: '$count',
-  //           items: {
-  //             $slice: ['$entries', skip || 0, first || DEFAULT_PAGE_SIZE]
-  //           }
-  //         }
-  //       })
-
-  //       const customers = await models.Customer.aggregate(aggregateClause)
-
-  //       // find customer with clauses
-  //       if (!!customers) {
-  //         if (customers.length > 0) {
-  //           //list customer
-  //           searchCustomer.total = requestRefunds[0].total
-  //           searchCustomer.items = requestRefunds[0].items
-  //         }
-  //       }
-
-  //       return searchCustomer
-  //     } catch (error) {
-  //       throw new Error(error)
-  //     }
-  //   }
-  // }
+        return searchCustomer
+      } catch (error) {
+        console.log('error.....', error)
+        throw new Error(error)
+      }
+    }
+  }
 }

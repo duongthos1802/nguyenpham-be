@@ -19,4 +19,11 @@ export const ERROR_MESSAGE = {
     text: 'Access denied',
     extensionCode: 'ACCESS_DENIED'
   },
+
+  MISSED_FIELD: {
+    code: 101,
+    text: 'Some fields missing',
+    extensionCode: 'MISSED_FIELD'
+  },
+
 }
