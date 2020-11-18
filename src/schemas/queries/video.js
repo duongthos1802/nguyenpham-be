@@ -138,7 +138,9 @@ export default {
               option: CATEGORY_OPTION.VIDEO,
               status: VIDEO_STATUS.PUBLISHED
             },
-            limit: VIDEO_LIMIT
+            limit: VIDEO_LIMIT,
+            sort: { createdAt: 'desc' }
+
           }
         })
 
@@ -158,9 +160,11 @@ export default {
           args: {
             filter: {
               status: VIDEO_STATUS.PUBLISHED,
-              sort: SORT_BY.DATE_ASC
             },
-            limit: VIDEO_ONE
+            limit: 2,
+            sort: {
+              createdAt: 'desc'
+            }
           }
         })
 
@@ -169,7 +173,6 @@ export default {
           categoriesVideo: dataCategoryVideo,
           videoTrending: videoTrending && videoTrending.length ? videoTrending[0] : null
         }
-
       } catch (error) {
         console.log('err', error);
       }

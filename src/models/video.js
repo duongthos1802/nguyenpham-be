@@ -33,6 +33,10 @@ const Video = new Schema(
     pictures: {
       type: [String]
     },
+    isPriority: {
+      type: Boolean,
+      default: false
+    },
     status: {
       type: String,
       enum: Object.values(VIDEO_STATUS)

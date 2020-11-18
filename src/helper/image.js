@@ -12,7 +12,9 @@ import {
   BANNER_UPLOAD_PATH,
   RECIPE_UPLOAD_PATH,
   HTML_BLOCK_UPLOAD_PATH,
-  UPLOAD_TYPE, BLOG_UPLOAD_PATH, VIDEO_UPLOAD_PATH
+  UPLOAD_TYPE,
+  BLOG_UPLOAD_PATH,
+  VIDEO_UPLOAD_PATH
 } from '../constants/image'
 import { RESOLVER_CREATE_ONE } from '../constants/resolver'
 // helpers
