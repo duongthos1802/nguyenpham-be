@@ -6,7 +6,7 @@ export const PRODUCT_IN_CATEGORY_FEATURE_COUNT = 12
 
 export const RECIPE_IN_CATEGORY_FEATURE_COUNT = 12
 
-export const VIDEO_LIMIT = 3
+export const VIDEO_LIMIT = 12
 
 export const VIDEO_ONE = 1
 

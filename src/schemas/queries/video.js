@@ -159,7 +159,7 @@ export default {
             filter: {
               status: VIDEO_STATUS.PUBLISHED,
             },
-            limit: 2,
+            limit: 1,
             sort: {
               createdAt: 'desc'
             }
