@@ -138,9 +138,7 @@ export default {
               option: CATEGORY_OPTION.VIDEO,
               status: VIDEO_STATUS.PUBLISHED
             },
-            limit: VIDEO_LIMIT,
-            sort: { createdAt: 'desc' }
-
+            limit: VIDEO_LIMIT
           }
         })
 
