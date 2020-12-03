@@ -26,10 +26,24 @@ export const ProductTC = composeWithDataLoader(
   }
 )
 
+// ProductTC.addRelation('category', {
+//   resolver: () => composer.CategoryTC.getResolver(RESOLVER_FIND_BY_ID),
+//   prepareArgs: {
+//     _id: (source) => source.category
+//   },
+//   projection: { category: 1 }
+// })
+
 ProductTC.addRelation('category', {
-  resolver: () => composer.CategoryTC.getResolver(RESOLVER_FIND_BY_ID),
+  resolver: () => composer.CategoryTC.getResolver(RESOLVER_FIND_MANY),
   prepareArgs: {
-    _id: (source) => source.category
+    filter: (source) => ({
+      _operators: {
+        _id: {
+          in: source.category
+        }
+      }
+    })
   },
   projection: { category: 1 }
 })
