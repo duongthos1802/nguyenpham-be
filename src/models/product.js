@@ -20,10 +20,10 @@ const Product = new Schema(
       type: String,
       enum: Object.values(PRODUCT_STATUS)
     },
-    category: [{
+    category: {
       type: Schema.Types.ObjectId,
       ref: 'Category'
-    }],
+    },
     application: {
       type: String
     },

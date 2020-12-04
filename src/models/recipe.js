@@ -30,10 +30,10 @@ const Recipe = new Schema(
       enum: Object.values(RECIPE_STATUS)
     },
     // category ref
-    category: {
+    category: [{
       type: Schema.Types.ObjectId,
       ref: 'Category'
-    },
+    }],
     isPriority: {
       type: Boolean,
       default: false
