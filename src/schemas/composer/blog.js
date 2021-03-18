@@ -48,13 +48,13 @@ BlogTC.setResolver(
     .addSortArg({
       name: 'date_DESC',
       value: () => {
-        return { date: -1 }
+        return { createdAt: -1 }
       }
     })
     .addSortArg({
       name: 'date_ASC',
       value: () => {
-        return { date: 1 }
+        return { createdAt: 1 }
       }
     })
     .addSortArg({
