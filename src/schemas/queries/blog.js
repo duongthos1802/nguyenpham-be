@@ -9,7 +9,8 @@ import {
   RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
   RESOLVER_COUNT,
-  RESOLVER_FIND_ONE
+  RESOLVER_FIND_ONE,
+  RESOLVER_BLOG_FIND_MANY
 } from '../../constants/resolver'
 import { sortHelper } from '../../models/extensions'
 import { stringHelper } from '../../extensions'
@@ -203,12 +204,13 @@ export default {
 
         if (_id) {
           blogs = await BlogTC.getResolver(
-            RESOLVER_FIND_MANY
+            RESOLVER_BLOG_FIND_MANY
           ).resolve({
             args: {
               filter: {
                 category: _id,
-                status: BLOG_STATUS.PUBLISHED
+                status: BLOG_STATUS.PUBLISHED,
+                sortBy: 'date_DESC'
               },
               limit: limit || 9,
               skip: skip || 0
@@ -237,15 +239,17 @@ export default {
           })
         }
         if (slug) {
+
           blogs = await BlogTC.getResolver(
-            RESOLVER_FIND_MANY
+            RESOLVER_BLOG_FIND_MANY
           ).resolve({
             args: {
               filter: {
                 status: BLOG_STATUS.PUBLISHED
               },
               limit: limit || 9,
-              skip: skip || 0
+              skip: skip || 0,
+              sortBy: 'date_DESC'
             }
           })
 
@@ -266,6 +270,7 @@ export default {
               filter: {
                 slug: slug,
                 status: CATEGORY_STATUS.PUBLISHED
+
               }
             }
           })
