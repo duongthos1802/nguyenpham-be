@@ -210,8 +210,8 @@ export default {
               filter: {
                 category: _id,
                 status: BLOG_STATUS.PUBLISHED,
-                sort: 'date_DESC'
               },
+              sort: 'date_DESC',
               limit: limit || 9,
               skip: skip || 0
             }
@@ -247,9 +247,9 @@ export default {
               filter: {
                 status: BLOG_STATUS.PUBLISHED
               },
+              sort: 'date_DESC',
               limit: limit || 9,
-              skip: skip || 0,
-              sort: 'date_DESC'
+              skip: skip || 0
             }
           })
 
