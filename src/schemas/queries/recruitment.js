@@ -1,23 +1,18 @@
-import mongoose from "mongoose";
 // models
 import models from "../../models";
 // composer
-import composer from "../composer";
+import { BLOG_STATUS } from "../../constants/enum";
 import {
-  RESOLVER_FIND_MANY,
-  RESOLVER_FIND_BY_ID,
-  RESOLVER_PAGINATION,
   RESOLVER_CONNECTION,
   RESOLVER_COUNT,
-  RESOLVER_FIND_ONE,
-  RESOLVER_BLOG_FIND_MANY,
+  RESOLVER_FIND_BY_ID,
+  RESOLVER_FIND_MANY,
+  RESOLVER_PAGINATION,
   RESOLVER_RECRUITMENT_FIND_MANY,
 } from "../../constants/resolver";
-import { sortHelper } from "../../models/extensions";
 import { stringHelper } from "../../extensions";
-import { isBuffer } from "lodash";
-import CategoryTC from "../composer/category";
-import { CATEGORY_STATUS, BLOG_STATUS } from "../../constants/enum";
+import { sortHelper } from "../../models/extensions";
+import composer from "../composer";
 
 const RecruitmentTC = composer.RecruitmentTC;
 
@@ -114,13 +109,15 @@ export default {
     resolve: async (_, { where }, context, info) => {
       try {
         // let category = null
-        let blogs = [];
+        let recruitments = [];
         let total = 0;
+
+        console.log(where);
 
         const { _id, slug, limit, skip } = where;
 
         if (_id) {
-          blogs = await BlogTC.getResolver(
+          recruitments = await RecruitmentTC.getResolver(
             RESOLVER_RECRUITMENT_FIND_MANY
           ).resolve({
             args: {
@@ -140,13 +137,46 @@ export default {
               },
             },
           });
+        }  
+
+        if (slug) {  
+
+          console.log("vappppp");
+          
+          recruitments = await RecruitmentTC.getResolver(
+            RESOLVER_RECRUITMENT_FIND_MANY
+          ).resolve({
+            args: {
+              filter: {
+                status: BLOG_STATUS.PUBLISHED
+              },
+              sort: 'date_DESC',
+              limit: limit || 9,
+              skip: skip || 0
+            }
+          })
+
+          total = await RecruitmentTC.getResolver(
+            RESOLVER_COUNT
+          ).resolve({
+            args: {
+              filter: {
+                status: BLOG_STATUS.PUBLISHED
+              }
+            }
+          }) 
+
+          console.log(total);
+          
         }
 
         return {
-          blogs,
+          recruitments,
           total,
         };
-      } catch (error) {}
+      } catch (error) {
+        console.log("err =====", error);
+      }
     },
   },
 };

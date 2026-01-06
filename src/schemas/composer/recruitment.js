@@ -14,6 +14,7 @@ import {
   RESOLVER_COUNT,
   RESOLVER_FIND_BY_ID,
   RESOLVER_RECRUITMENT_COUNT,
+  RESOLVER_RECRUITMENT_FIND_MANY,
 } from "../../constants/resolver";
 
 export const RecruitmentTC = composeWithDataLoader(
@@ -35,7 +36,7 @@ const resolverFindMany = RecruitmentTC.getResolver(RESOLVER_FIND_MANY);
 const resolverCount = RecruitmentTC.getResolver(RESOLVER_COUNT);
 
 RecruitmentTC.setResolver(
-  RESOLVER_RECIPE_FIND_MANY,
+  RESOLVER_RECRUITMENT_FIND_MANY,
   resolverFindMany
     .addFilterArg({
       name: "keyword",
@@ -44,12 +45,7 @@ RecruitmentTC.setResolver(
         rawQuery.name = stringHelper.regexMongooseKeyword(value);
       },
     })
-    .addSortArg({
-      name: "viewCount_DESC",
-      value: () => {
-        return { viewCount: -1 };
-      },
-    })
+     
     .addSortArg({
       name: "date_DESC",
       value: () => {

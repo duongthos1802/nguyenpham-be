@@ -7,8 +7,8 @@ import { CACHE_EXPIRATION } from '../../constants/cache'
 // options
 import { customizationOptions } from '../customizationOptions'
 //composer
+import { RESOLVER_BLOG_COUNT, RESOLVER_BLOG_FIND_MANY, RESOLVER_COUNT, RESOLVER_FIND_BY_ID, RESOLVER_FIND_MANY } from '../../constants/resolver'
 import composer from '../composer'
-import { RESOLVER_BLOG_FIND_MANY, RESOLVER_PRODUCT_COUNT, RESOLVER_FIND_MANY, RESOLVER_COUNT, RESOLVER_FIND_BY_ID, RESOLVER_BLOG_COUNT } from '../../constants/resolver'
 
 export const BlogTC = composeWithDataLoader(
   composeWithMongoose(models.Blog, customizationOptions),

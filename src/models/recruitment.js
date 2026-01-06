@@ -19,10 +19,10 @@ const Recruitment = new Schema(
       type: String,
     },
     startDate: {
-      type: Date,
+      type: String,
     },
     endDate: {
-      type: Date,
+      type: String,
     },
     timeWork: {  
       type: String,
