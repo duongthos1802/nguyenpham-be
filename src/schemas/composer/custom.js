@@ -1,14 +1,15 @@
-import { schemaComposer } from 'graphql-compose'
-import { UserTC } from '../composer/user'
-import { UserSessionTC } from '../composer/userSession'
-import ProductTC from './product';
-import HtmlBlockGroupTC from './htmlBlockGroup';
-import RecipeTC from './recipe';
-import CategoryTC from './category';
-import BlogTC from './blog';
-import VideoTC from './video';
-import BannerGroupTC from './bannerGroup';
-import CustomerTC from './customer';
+import { schemaComposer } from "graphql-compose";
+import { UserTC } from "../composer/user";
+import { UserSessionTC } from "../composer/userSession";
+import ProductTC from "./product";
+import HtmlBlockGroupTC from "./htmlBlockGroup";
+import RecipeTC from "./recipe";
+import CategoryTC from "./category";
+import BlogTC from "./blog";
+import VideoTC from "./video";
+import BannerGroupTC from "./bannerGroup";
+import CustomerTC from "./customer";
+import RecruitmentTC from "./recruitment";
 
 export const UserPermissonTC = schemaComposer.createObjectTC({
   name: "UserPermisson",
@@ -24,33 +25,32 @@ export const AuthAdminTC = schemaComposer.createObjectTC({
     token: "String!",
     user: UserTC,
     userSession: UserSessionTC,
-    permissions: [UserPermissonTC]
+    permissions: [UserPermissonTC],
   },
 });
 
 export const CategoryFeatureTC = schemaComposer.createObjectTC({
-  name: 'CategoryFeature',
+  name: "CategoryFeature",
   fields: {
-    _id: 'ID!',
-    index: 'Int!',
-    name: 'String!',
-    slug: 'String',
-    option: 'String',
+    _id: "ID!",
+    index: "Int!",
+    name: "String!",
+    slug: "String",
+    option: "String",
     products: [ProductTC],
-    recipes: [RecipeTC]
-  }
-})
-
+    recipes: [RecipeTC],
+  },
+});
 
 export const EventHomeTC = schemaComposer.createObjectTC({
-  name: 'EventModel',
+  name: "EventModel",
   fields: {
     eventLeft: HtmlBlockGroupTC,
     urlVideo: "String",
     eventRightActive: "String",
-    bannerGroup: BannerGroupTC
-  }
-})
+    bannerGroup: BannerGroupTC,
+  },
+});
 
 export const SearchProductTC = schemaComposer.createObjectTC({
   name: "SearchProduct",
@@ -58,7 +58,7 @@ export const SearchProductTC = schemaComposer.createObjectTC({
     items: [ProductTC],
     total: "Int",
   },
-})
+});
 
 export const SearchRecipeTC = schemaComposer.createObjectTC({
   name: "SearchRecipe",
@@ -66,7 +66,7 @@ export const SearchRecipeTC = schemaComposer.createObjectTC({
     items: [RecipeTC],
     total: "Int",
   },
-})
+});
 
 export const SearchCategoryTC = schemaComposer.createObjectTC({
   name: "SearchCategory",
@@ -82,9 +82,9 @@ export const RecipeCustomTC = schemaComposer.createObjectTC({
     category: CategoryTC,
     categories: [CategoryTC],
     recipes: [RecipeTC],
-    total: 'Int'
+    total: "Int",
   },
-})
+});
 
 export const ProductCustomTC = schemaComposer.createObjectTC({
   name: "ProductCustom",
@@ -92,18 +92,25 @@ export const ProductCustomTC = schemaComposer.createObjectTC({
     category: CategoryTC,
     categories: [CategoryTC],
     products: [ProductTC],
-    total: 'Int'
+    total: "Int",
   },
-})
+});
 
 export const BlogCustomTC = schemaComposer.createObjectTC({
   name: "BlogCustom",
   fields: {
     category: CategoryTC,
     blogs: [BlogTC],
-    total: 'Int'
+    total: "Int",
   },
-})
+});
+export const RecruitmentCustomTC = schemaComposer.createObjectTC({
+  name: "RecruitmentCustom",
+  fields: {
+    recruitments: [RecruitmentTC],
+    total: "Int",
+  },
+});
 
 export const SearchBlogTC = schemaComposer.createObjectTC({
   name: "SearchBlog",
@@ -111,7 +118,15 @@ export const SearchBlogTC = schemaComposer.createObjectTC({
     items: [BlogTC],
     total: "Int",
   },
-})
+});
+
+export const SearchRecruitmentTC = schemaComposer.createObjectTC({
+  name: "SearchRecruitment",
+  fields: {
+    items: [RecruitmentTC],
+    total: "Int",
+  },
+});
 
 export const SearchBlogFeaturesTC = schemaComposer.createObjectTC({
   name: "SearchBlogFeatures",
@@ -119,7 +134,7 @@ export const SearchBlogFeaturesTC = schemaComposer.createObjectTC({
     blogFeatures: [BlogTC],
     categoryBlog: [CategoryTC],
   },
-})
+});
 
 export const SearchVideoTC = schemaComposer.createObjectTC({
   name: "SearchVideo",
@@ -128,7 +143,7 @@ export const SearchVideoTC = schemaComposer.createObjectTC({
     items: [VideoTC],
     total: "Int",
   },
-})
+});
 
 export const VideoCustomTC = schemaComposer.createObjectTC({
   name: "VideoCustomTC",
@@ -137,15 +152,15 @@ export const VideoCustomTC = schemaComposer.createObjectTC({
     categoriesVideo: [CategoryTC],
     videoTrending: VideoTC,
   },
-})
+});
 
 export const TrendingTC = schemaComposer.createObjectTC({
   name: "SearchTrending",
   fields: {
     category: CategoryTC,
-    option: "String"
+    option: "String",
   },
-})
+});
 
 export const SearchCustomerTC = schemaComposer.createObjectTC({
   name: "SearchCustomer",

@@ -46,7 +46,11 @@ export const RESOLVER_PAGE_COUNT = 'pageCount'
 export const RESOLVER_BLOG_FIND_MANY = 'blogFindMany'
 export const RESOLVER_BLOG_COUNT = 'blogCount'
 
-// CUSTOM BLOG
+// CUSTOM RECRUITMENT
+export const RESOLVER_RECRUITMENT_FIND_MANY = 'recruitmentFindMany'
+export const RESOLVER_RECRUITMENT_COUNT = 'recruitmentCount'
+
+// CUSTOM VIDEO
 export const RESOLVER_VIDEO_FIND_MANY = 'videoFindMany'
 export const RESOLVER_VIDEO_COUNT = 'videoCount'
 
@@ -91,6 +95,9 @@ export default {
 
   RESOLVER_BLOG_FIND_MANY,
   RESOLVER_BLOG_COUNT,
+
+  RESOLVER_RECRUITMENT_FIND_MANY,
+  RESOLVER_RECRUITMENT_COUNT,
 
   RESOLVER_VIDEO_FIND_MANY,
   RESOLVER_VIDEO_COUNT

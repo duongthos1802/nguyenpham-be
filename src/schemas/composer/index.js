@@ -2,6 +2,7 @@ import { LocationTC } from './location'
 import { CategoryTC } from './category'
 import { RecipeTC } from './recipe'
 import { BlogTC } from './blog'
+import { RecruitmentTC } from './recruitment'
 import { BannerTC } from './banner'
 import { BannerGroupTC } from './bannerGroup'
 import { FileTC } from './file'
@@ -27,11 +28,13 @@ import {
   SearchCategoryTC,
   RecipeCustomTC,
   SearchBlogTC,
+  SearchRecruitmentTC,
   SearchVideoTC,
   TrendingTC,
   ProductCustomTC,
   SearchBlogFeaturesTC,
   BlogCustomTC,
+  RecruitmentCustomTC,
   VideoCustomTC,
   SearchCustomerTC
 } from './custom'
@@ -39,6 +42,7 @@ import {
 export default {
   BannerTC,
   BlogTC,
+  RecruitmentTC,
   BannerGroupTC,
   CategoryTC,
   FileTC,
@@ -62,11 +66,13 @@ export default {
   SearchCategoryTC,
   RecipeCustomTC,
   SearchBlogTC,
+  SearchRecruitmentTC,
   SearchVideoTC,
   TrendingTC,
   ProductCustomTC,
   SearchBlogFeaturesTC,
   BlogCustomTC,
+  RecruitmentCustomTC,
   VideoCustomTC,
   CustomerTC,
   SearchCustomerTC
