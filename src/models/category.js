@@ -1,59 +1,88 @@
-import mongoose, { Schema } from 'mongoose'
-import timestamp from 'mongoose-timestamp'
+import mongoose, { Schema } from "mongoose";
+import timestamp from "mongoose-timestamp";
 // constants
-import { CATEGORY_STATUS, CATEGORY_OPTION } from '../constants/enum'
+import { CATEGORY_STATUS, CATEGORY_OPTION, CATEGORY_TYPE_BRAND } from "../constants/enum";
 
 const Category = new Schema(
   {
     index: {
       type: Number,
-      unique: true
+      unique: true,
     },
     name: {
       type: String,
-      require: true
+      require: true,
     },
     description: {
-      type: String
+      type: String,
     },
     slug: {
-      type: String
+      type: String,
     },
     parentId: {
       type: Schema.Types.ObjectId,
-      ref: 'Category'
+      ref: "Category",
     },
     status: {
       type: String,
-      enum: Object.values(CATEGORY_STATUS)
+      enum: Object.values(CATEGORY_STATUS),
     },
     metaTitle: {
-      type: String
+      type: String,
     },
     metaDescription: {
-      type: String
+      type: String,
     },
     metaKeyword: {
-      type: String
+      type: String,
     },
     image: {
-      type: String
+      type: String,
     },
     imageFile: {
       type: Schema.Types.ObjectId,
-      ref: 'File'
+      ref: "File",
     },
     banner: {
-      type: String
+      type: String,
     },
     option: {
       type: String,
-      enum: Object.values(CATEGORY_OPTION)
-    }
+      enum: Object.values(CATEGORY_OPTION),
+    },
+    typeBrand: {
+      type: String,
+      enum: Object.values(CATEGORY_TYPE_BRAND),
+    },
+    content: {
+      type: String,
+    },
+    blogId: {
+      type: Schema.Types.ObjectId,
+      ref: "Blog",
+    },
+    brands: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Category",
+      },
+    ],
+    isHome: {
+      type: Boolean,
+      default: false,
+    },
+    isBrand: {
+      type: Boolean,
+      default: false,
+    },
+    isMenu: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { collection: 'categories' }
-)
+  { collection: "categories" }
+);
 
-Category.plugin(timestamp)
+Category.plugin(timestamp);
 
-export default mongoose.model('Category', Category)
+export default mongoose.model("Category", Category);

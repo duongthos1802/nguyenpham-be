@@ -102,6 +102,31 @@ CategoryTC.addFields({
   }
 })
 
+
+
+
+CategoryTC.addRelation('blogId', {
+  resolver: () => composer.BlogTC.getResolver(RESOLVER_FIND_BY_ID),
+  prepareArgs: {
+    _id: (source) => source.blogId
+  },
+  projection: { blog: 1 }
+})
+
+CategoryTC.addRelation('brands', {
+  resolver: () => composer.CategoryTC.getResolver(RESOLVER_FIND_MANY),
+  prepareArgs: {
+    filter: (source) => ({
+      _operators: {
+        _id: {
+          in: source.brands
+        }
+      }
+    })
+  },
+  projection: { categories: 1 }
+})
+
 // CUSTOM RESOLVER
 const resolverFindMany = CategoryTC.getResolver(RESOLVER_FIND_MANY)
 const resolverCount = CategoryTC.getResolver(RESOLVER_COUNT)

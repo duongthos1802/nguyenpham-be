@@ -17,6 +17,10 @@ export const CATEGORY_OPTION = {
   SERVICE: 'Service',
   BLOG: 'Blog'
 }
+export const CATEGORY_TYPE_BRAND = {
+  BLOG: 'Blog',
+  BRAND: 'Brand'
+}
 
 export const RECIPE_STATUS = {
   PUBLISHED: 'Published',
