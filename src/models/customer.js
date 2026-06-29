@@ -18,6 +18,9 @@ const Customer = new Schema(
     address: {
       type: String
     },
+    object: {
+      type: String
+    },
     email: {
       type: String
     },
